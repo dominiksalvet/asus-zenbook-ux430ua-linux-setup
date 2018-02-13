@@ -10,6 +10,8 @@ fi
 echo
 echo 'Notice:'
 echo 'The last line of "/etc/rc.local" must be "exit 0"!'
+echo 'Option 1) will install "alsa-tools" package.'
+echo 'Option 2) will install "acpi-call-dkms" package.'
 echo
 
 # configuration setup
@@ -26,7 +28,7 @@ echo
 echo '================================================================'
 echo
 
-# remove /etc/rc.local "exit 0" tail
+# remove "exit 0" tail from /etc/rc.local file
 if [[ $jack_config = [Yy] ]] || [[ $fan_config = [Yy] ]]; then
     sed -i '$d' /etc/rc.local
 fi
@@ -48,7 +50,7 @@ if [[ $fan_config = [yY] ]]; then
     ln -s /usr/local/bin/fan-config /lib/systemd/system-sleep/fan-config
 fi
 
-# append /etc/rc.local "exit 0" tail
+# append "exit 0" tail to /etc/rc.local file
 if [[ $jack_config = [Yy] ]] || [[ $fan_config = [Yy] ]]; then
     echo 'exit 0' >> /etc/rc.local
 fi
