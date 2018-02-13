@@ -15,22 +15,22 @@ sudo ./setup.sh
 The used fan speed policy is defined by values assigned to the array variable `temps` at line 4 in a fan config file. The default fan speed policy looks like this:
 
 ```bash
-3  # array of temperatures (in Celsius) per each fan speed level
-4  temps=(55 60 62 65 68 72 76 80)
+# array of temperatures (in Celsius) per each fan speed level
+temps=(55 60 62 65 68 72 76 80)
 ```
 
 Table representation:
 
 | Speed level   | Temperature (C°) |
-| ------------- | ----------------:|
-| 0 (off)       |              <55 |
-| 1             |               60 |
-| 2             |               62 |
-| 3             |               65 |
-| 4             |               68 |
-| 5             |               72 |
-| 6             |               76 |
-| 7             |              >80 |
+| ------------- | ---------------- |
+| 0 (off)       | 55>              |
+| 1             | 60               |
+| 2             | 62               |
+| 3             | 65               |
+| 4             | 68               |
+| 5             | 72               |
+| 6             | 76               |
+| 7             | 80<              |
 
 To customize the used fan speed policy, edit the line 4:
 
