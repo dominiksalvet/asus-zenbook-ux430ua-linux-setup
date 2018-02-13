@@ -27,7 +27,7 @@ function level_temp_set {
 # check "temps" length
 if [ ${#temps[@]} != 8 ]; then
     echo 'Lenght of array of temperature "temps" must be exactly 8.'
-    exit 0
+    exit
 fi
 
 # perform sleep before executing
