@@ -2,6 +2,10 @@
 
 The setup script customizes fan speed policy and 3.5mm jack output audio volume on ASUS UX430UA running Linux.
 
+## Software requirements
+
+* use **systemd** as the init system
+
 ## Installation
 
 To launch an installation wizard that will help you to get through the process, use the following command in a terminal:
