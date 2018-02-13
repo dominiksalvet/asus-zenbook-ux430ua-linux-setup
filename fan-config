@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# array of temperatures (in Celsius) per each fan speed level
+temps=(55 60 62 65 68 72 76 80)
+
+# direct acpi call
+function acpi_call {
+    echo "$*" > /proc/acpi/call
+    cat /proc/acpi/call; echo
+}
+
+# convert number from decimal to hexadecimal
+function dec_to_hex {
+    printf '%x' $1
+}
+
+# computing address of each fan speed level
+function level_to_addr {
+    echo $((1335 + $1))
+}
+
+# assigning fan speed level and temperature
+function level_temp_set {
+    acpi_call "\_SB.PCI0.LPCB.EC0.WRAM 0x$(dec_to_hex $(level_to_addr $1)) 0x$(dec_to_hex $2)"
+}
+
+# check "temps" length
+if [ ${#temps[@]} != 8 ]; then
+    echo 'Lenght of array of temperature "temps" must be exactly 8.'
+    exit 0
+fi
+
+# perform sleep before executing
+if [ -z "$1" ]; then
+    sleep 20
+else
+    sleep $1
+fi
+
+# setup each individual fan speed level
+level_temp_set 7 ${temps[7]}
+level_temp_set 6 ${temps[6]}
+level_temp_set 5 ${temps[5]}
+level_temp_set 4 ${temps[4]}
+level_temp_set 3 ${temps[3]}
+level_temp_set 2 ${temps[2]}
+level_temp_set 1 ${temps[1]}
+level_temp_set 0 ${temps[0]}
