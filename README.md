@@ -4,7 +4,7 @@ The setup script customizes fan speed policy and 3.5mm jack output audio volume 
 
 ## Software requirements
 
-* use **systemd** as the init system
+* using **systemd** as the init system
 
 ## Installation
 
@@ -16,14 +16,14 @@ sudo ./setup.sh
 
 ## Customize the fan speed policy
 
-The used fan speed policy is defined by values assigned to the array variable `temps` at line 4 in a fan config file. The default fan speed policy looks like this:
+The fan speed policy is defined by values assigned to the array variable `temps` at line 4 in a fan config file. The default fan speed policy looks like this:
 
 ```bash
 # array of temperatures (in Celsius) per each fan speed level
 temps=(55 60 62 65 68 72 76 80)
 ```
 
-Table representation:
+Table equivalent:
 
 | Speed level   | Temperature (C°) |
 | ------------- | ---------------- |
@@ -36,10 +36,12 @@ Table representation:
 | 6             | 76               |
 | 7             | 80<              |
 
-To customize the used fan speed policy, edit the line 4:
+To customize the fan speed policy, edit the line 4:
 
 * directly in [`fan-config`](fan-config) file, if customizing **before** the installation
 * in `/usr/local/bin/fan-config` file, if customizing **after** the installation
+
+Both cases requires reboot to apply the changes.
 
 ## License
 
