@@ -14,6 +14,8 @@ To launch an installation wizard that will help you to get through the process, 
 sudo ./setup.sh
 ```
 
+Keep in mind that all source files must be accessible while installing!
+
 ## Customize the fan speed policy
 
 The fan speed policy is defined by values assigned to the array variable `temps` at line 4 in a fan config file. The default fan speed policy looks like this:
