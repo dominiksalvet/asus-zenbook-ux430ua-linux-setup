@@ -40,11 +40,11 @@ Table equivalent:
 
 To customize the fan speed policy, edit the line 4:
 
-* directly in [`fan-config`](fan-config) file, if customizing **before** the installation
-* in `/usr/local/bin/fan-config` file, if customizing **after** the installation
+* directly in [*fan-config*](fan-config) file, if customizing **before** the installation
+* in */usr/local/bin/fan-config* file, if customizing **after** the installation
 
 Both cases requires reboot to apply the changes.
 
 ## License
 
-This project is licensed under the MIT License, see the [`LICENSE.txt`](LICENSE.txt) file for details.
+This project is licensed under the MIT License, see the [*LICENSE.txt*](LICENSE.txt) file for details.
