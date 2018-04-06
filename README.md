@@ -1,4 +1,4 @@
-# ASUS UX430UA Linux setup
+# ASUS ZenBook UX430UA Linux Setup
 
 The setup script customizes fan speed policy and 3.5mm jack output audio volume on ASUS UX430UA running Linux.
 
