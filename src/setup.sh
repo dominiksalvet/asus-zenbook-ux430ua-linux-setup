@@ -59,4 +59,4 @@ fi
 echo
 echo '================================================================'
 echo
-echo 'Done! In order to apply the changes, reboot your computer.'
+echo 'Done! In order to apply the changes, reboot your machine.'

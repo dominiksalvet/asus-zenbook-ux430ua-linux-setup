@@ -8,13 +8,13 @@ The setup script customizes fan speed policy and 3.5mm jack output audio volume 
 
 ## Installation
 
-To launch an installation wizard that will help you to get through the process, use the following command in a terminal:
+To launch an installation wizard that will help you to get through the process, use the following command in a terminal opened in the *asus-ux430ua-linux* directory:
 
 ```bash
-sudo ./setup.sh
+sudo ./src/setup.sh
 ```
 
-Keep in mind that all source files must be accessible while installing!
+Keep in mind that all original files from the *src* directory must be accessible while installing!
 
 ## Customize the fan speed policy
 
@@ -40,7 +40,7 @@ Table equivalent:
 
 To customize the fan speed policy, edit the line 4:
 
-* directly in [*fan-config*](fan-config) file, if customizing **before** the installation
+* directly in [*src/fan-config*](src/fan-config) file, if customizing **before** the installation
 * in */usr/local/bin/fan-config* file, if customizing **after** the installation
 
 Both cases requires reboot to apply the changes.
