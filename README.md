@@ -11,7 +11,7 @@ The setup script customizes fan speed policy and 3.5mm jack output audio volume 
 To launch an installation wizard that will help you to get through the process, use the following command in a terminal opened in the *asus-zenbook-ux430ua-linux* directory:
 
 ```bash
-sudo ./src/setup.sh
+sudo ./src/setup
 ```
 
 Keep in mind that all original files from the *src* directory must be accessible while installing!
