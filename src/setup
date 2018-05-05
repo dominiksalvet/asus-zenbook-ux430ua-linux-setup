@@ -35,6 +35,15 @@ echo
 
 # remove "exit 0" tail from /etc/rc.local file
 if [[ $jack_config = [Yy] ]] || [[ $fan_config = [Yy] ]]; then
+    # check if jack-config file exists
+    if [ ! -e jack-config ]; then
+        echo 'Error: jack-config file does not exist.'
+        exit 1
+    fi
+    # check if fan-config file exists
+    if [ ! -e fan-config ]; then
+        echo 'Error: fan-config file does not exist.'
+    fi
     # create /etc/rc.local file if does not exist
     if [ ! -e /etc/rc.local ]; then
         echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
