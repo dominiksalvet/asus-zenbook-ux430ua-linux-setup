@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#-------------------------------------------------------------------------------
+# Copyright (C) 2017-2018 Dominik Salvet
+# SPDX-License-Identifier: MIT
+#-------------------------------------------------------------------------------
+
 # check if running as root
 if [ "$EUID" -ne 0 ]; then
     echo "Please run as root."
