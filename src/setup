@@ -35,6 +35,10 @@ echo
 
 # remove "exit 0" tail from /etc/rc.local file
 if [[ $jack_config = [Yy] ]] || [[ $fan_config = [Yy] ]]; then
+    # create /etc/rc.local file if does not exist
+    if [ ! -e /etc/rc.local ]; then
+        echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
+    fi
     sed -i '$d' /etc/rc.local
 fi
 
