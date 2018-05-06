@@ -2,7 +2,7 @@
 
 In default setup of ASUS ZenBook UX430UA running Linux a fan is driven very aggressively. Even when the notebook is not under any load, the fan keeps running. Also, output volume of 3.5mm jack has very low coefficient, so volume of 3.5mm devices is scaled down significantly compared to normal state.
 
-The described problems can be solved with this program. The program includes a simple installation wizard, which helps with the installation process.
+The described problems can be solved with this program. The program includes a simple installation wizard, which is helpful during the installation process.
 
 ## Software requirements
 
