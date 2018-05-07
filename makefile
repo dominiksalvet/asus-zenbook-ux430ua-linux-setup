@@ -16,13 +16,20 @@ INSTALL_DIR := /usr/local/bin
 
 ## RULES
 
-.PHONY: all install uninstall
+.PHONY: all help install uninstall
 
-all:
-	@echo 'Use "make install" to install the program.'
+all: help
+
+help:
+	@echo 'Usage: make [target]'
+	@echo
+	@echo 'targets:'
+	@echo 'help         show this help'
+	@echo 'install      install the program'
+	@echo 'uninstall    uninstall the program'
 
 install:
 	./$(SRC_DIR)/install $(INSTALL_DIR)
 
 uninstall:
-	@echo "Currently not supported."
+	./$(SRC_DIR)/uninstall $(INSTALL_DIR)

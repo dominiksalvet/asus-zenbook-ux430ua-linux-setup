@@ -10,7 +10,7 @@
 
 # check if running as root
 if [ "$EUID" -ne 0 ]; then
-    echo 'Please run as root, installation aborted.'
+    echo 'Please run as root, installation canceled.'
     exit
 fi
 
@@ -30,17 +30,20 @@ echo
 
 # check if at least one option selected
 if [[ $jack_config != y ]] && [[ $fan_config != y ]]; then
-	echo 'No option selected, installation aborted.'
-	exit
+    echo 'No option selected, installation canceled.'
+    exit
 fi
 
 read -p 'Are you really sure to proceed? [y/n] ' user_agreed
 if [[ $user_agreed != y ]]; then
+    echo 'Installation canceled.'
     exit
 fi
+
 echo
 echo '================================================================================'
 echo
+echo 'Installing ...'
 
 # description of line containing a successful exit of a shell script
 find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
@@ -58,7 +61,7 @@ fi
 if [[ $jack_config = y ]]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
-        echo 'The jack-config file does not exist, installation aborted.'
+        echo 'The jack-config file does not exist, installation canceled.'
         exit 1
     else
         # load jack-config file content into variable
@@ -69,7 +72,7 @@ fi
 if [[ $fan_config = y ]]; then
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
-        echo 'The fan-config file does not exist, installation aborted.'
+        echo 'The fan-config file does not exist, installation canceled.'
         exit 2
     else
         # load fan-config file content into variable
@@ -89,7 +92,7 @@ if [[ $jack_config = y ]]; then
     ln -s $1/jack-config /lib/systemd/system-sleep/jack-config
 fi
 
-# apply less aggressive fan speed policy
+# apply less aggressive fan speed policy setup
 if [[ $fan_config = y ]]; then
     apt install acpi-call-dkms -y
     echo 'acpi_call' >> /etc/modules
