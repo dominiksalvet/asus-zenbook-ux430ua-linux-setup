@@ -24,18 +24,18 @@ echo
 
 # installation setup
 echo 'Installation setup:'
-read -p '1) Configure 3.5 mm jack output volume to be louder? ' -n 1 jack_config; echo
-read -p '2) Configure the fan speed policy to be less aggressive? ' -n 1 fan_config; echo
+read -p '1) Configure 3.5 mm jack output volume to be louder? [y/n] ' jack_config
+read -p '2) Configure the fan speed policy to be less aggressive? [y/n] ' fan_config
 echo
 
 # check if at least one option selected
-if [[ $jack_config != [yY] ]] && [[ $fan_config != [yY] ]]; then
+if [[ $jack_config != y ]] && [[ $fan_config != y ]]; then
 	echo 'No option selected, installation aborted.'
 	exit
 fi
 
-read -p 'Are you really sure to proceed? ' -n 1 user_agreed; echo
-if [[ $user_agreed != [yY] ]]; then
+read -p 'Are you really sure to proceed? [y/n] ' user_agreed
+if [[ $user_agreed != y ]]; then
     exit
 fi
 echo
@@ -55,7 +55,7 @@ elif grep -q "$find_exit_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 
-if [[ $jack_config = [yY] ]]; then
+if [[ $jack_config = y ]]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
         echo 'The jack-config file does not exist, installation aborted.'
@@ -66,7 +66,7 @@ if [[ $jack_config = [yY] ]]; then
     fi
 fi
 
-if [[ $fan_config = [yY] ]]; then
+if [[ $fan_config = y ]]; then
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
         echo 'The fan-config file does not exist, installation aborted.'
@@ -80,7 +80,7 @@ fi
 ## INSTALLATION
 
 # apply 3.5 mm jack output volume setup
-if [[ $jack_config = [yY] ]]; then
+if [[ $jack_config = y ]]; then
     apt install alsa-tools -y
 
     echo "$jack_config_string" > $1/jack-config
@@ -90,7 +90,7 @@ if [[ $jack_config = [yY] ]]; then
 fi
 
 # apply less aggressive fan speed policy
-if [[ $fan_config = [yY] ]]; then
+if [[ $fan_config = y ]]; then
     apt install acpi-call-dkms -y
     echo 'acpi_call' >> /etc/modules
 
