@@ -49,7 +49,7 @@ Both cases require reboot to apply the changes!
 
 ## License
 
-This project is licensed under an Open Source Initiative approved license, the MIT License. See the [*LICENSE.txt*](LICENSE.txt) file for details. SPDX license identifiers are used in source files.
+This project is licensed under an Open Source Initiative approved license, the MIT License. See the [*LICENSE.txt*](LICENSE.txt) file for details. Individual files contain the SPDX license identifier instead of the full license text.
 
 <p align="center">
   <a href="http://opensource.org/">
