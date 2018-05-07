@@ -1,0 +1,107 @@
+#!/bin/bash
+
+#-------------------------------------------------------------------------------
+# Copyright (C) 2017-2018 Dominik Salvet
+# SPDX-License-Identifier: MIT
+#-------------------------------------------------------------------------------
+# Parameters:
+#     $1 - installation directory path
+#-------------------------------------------------------------------------------
+
+# check if running as root
+if [ "$EUID" -ne 0 ]; then
+    echo 'Please run as root, installation aborted.'
+    exit
+fi
+
+# notice
+echo
+echo 'Notice:'
+echo 'The "/etc/rc.local" file will be created if it does not exist.'
+echo 'Option 1) will install "alsa-tools" package.'
+echo 'Option 2) will install "acpi-call-dkms" package.'
+echo
+
+# installation setup
+echo 'Installation setup:'
+read -p '1) Configure 3.5 mm jack output volume to be louder? ' -n 1 jack_config; echo
+read -p '2) Configure the fan speed policy to be less aggressive? ' -n 1 fan_config; echo
+echo
+
+# check if at least one option selected
+if [[ $jack_config != [yY] ]] && [[ $fan_config != [yY] ]]; then
+	echo 'No option selected, installation aborted.'
+	exit
+fi
+
+read -p 'Are you really sure to proceed? ' -n 1 user_agreed; echo
+if [[ $user_agreed != [yY] ]]; then
+    exit
+fi
+echo
+echo '================================================================================'
+echo
+
+# description of line containing a successful exit of a shell script
+find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
+
+## FILE DEPENDENCIES
+
+# create /etc/rc.local file if it does not exist
+if [ ! -e /etc/rc.local ]; then
+    echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
+# append a successful exit if it does not exist one
+elif grep -q "$find_exit_0" /etc/rc.local; then
+    echo 'exit 0' >> /etc/rc.local
+fi
+
+if [[ $jack_config = [yY] ]]; then
+    # check if jack-config file exists
+    if [ ! -e jack-config ]; then
+        echo 'The jack-config file does not exist, installation aborted.'
+        exit 1
+    else
+        # load jack-config file content into variable
+        jack_config_string=$(cat 'jack-config')
+    fi
+fi
+
+if [[ $fan_config = [yY] ]]; then
+    # check if fan-config file exists
+    if [ ! -e fan-config ]; then
+        echo 'The fan-config file does not exist, installation aborted.'
+        exit 2
+    else
+        # load fan-config file content into variable
+        fan_config_string=$(cat 'fan-config')
+    fi
+fi
+
+## INSTALLATION
+
+# apply 3.5 mm jack output volume setup
+if [[ $jack_config = [yY] ]]; then
+    apt install alsa-tools -y
+
+    echo "$jack_config_string" > $1/jack-config
+    chmod +x $1/jack-config
+    sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/jack-config\n&|' /etc/rc.local
+    ln -s $1/jack-config /lib/systemd/system-sleep/jack-config
+fi
+
+# apply less aggressive fan speed policy
+if [[ $fan_config = [yY] ]]; then
+    apt install acpi-call-dkms -y
+    echo 'acpi_call' >> /etc/modules
+
+    echo "$fan_config_string" > $1/fan-config
+    chmod +x $1/fan-config
+    sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/fan-config\n&|' /etc/rc.local
+    ln -s $1/fan-config /lib/systemd/system-sleep/fan-config
+fi
+
+# finished
+echo
+echo '================================================================================'
+echo
+echo 'Done! In order to apply the changes, reboot your machine.'

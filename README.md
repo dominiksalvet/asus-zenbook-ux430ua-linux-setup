@@ -2,7 +2,7 @@
 
 In default setup of ASUS ZenBook UX430UA running Linux a fan is driven very aggressively. Even when the notebook is not under any load, the fan keeps running. Also, output volume of 3.5 mm jack has a very low coefficient, so volume of 3.5 mm devices is scaled down significantly compared to normal state.
 
-The described problems can be solved with this program. The program includes a simple installation wizard, which is helpful during the installation process.
+Both described problems can be solved with this program. The program includes a simple installation wizard, where it is possible to choose which configurations apply.
 
 ## Software requirements
 
@@ -13,12 +13,10 @@ The described problems can be solved with this program. The program includes a s
 To start the installation, run the program by typing the following command in a terminal emulator opened in *asus-zenbook-ux430ua-linux* directory:
 
 ```bash
-sudo ./src/setup
+sudo make install
 ```
 
 The program will asks for a sudo password, because it needs to write configuration files to a location that is unaccessible to a normal user account.
-
-Keep in mind that all original files from the *src* directory must be accessible while installing!
 
 ## Customize the fan speed policy
 
@@ -40,9 +38,9 @@ Table equivalent:
 | 4             | 68               |
 | 5             | 72               |
 | 6             | 76               |
-| 7             | 80<              |
+| 7 (max)       | 80<              |
 
-To customize the fan speed policy, edit the variable assignment of the line:
+To customize the fan speed policy, edit the array assignment:
 
 * directly in [*src/fan-config*](src/fan-config) file, if customizing **before** the installation
 * in */usr/local/bin/fan-config* file, if customizing **after** the installation
@@ -51,7 +49,7 @@ Both cases require reboot to apply the changes!
 
 ## License
 
-This project is licensed under an Open Source Initiative approved license, the MIT License. See the [*LICENSE.txt*](LICENSE.txt) file for details. This project also uses SPDX license identifiers in source files.
+This project is licensed under an Open Source Initiative approved license, the MIT License. See the [*LICENSE.txt*](LICENSE.txt) file for details. SPDX license identifiers are used in source files.
 
 <p align="center">
   <a href="http://opensource.org/">

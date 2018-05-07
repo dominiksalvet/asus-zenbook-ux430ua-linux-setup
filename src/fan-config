@@ -4,6 +4,12 @@
 # Copyright (C) 2017-2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
 #-------------------------------------------------------------------------------
+# Parameters:
+#     $1 - number of seconds to sleep before the fan speed configuration
+#-------------------------------------------------------------------------------
+
+# base address for fan speed configuration
+FAN_SPEED_BASE_ADDR=1335
 
 # array of temperatures (in Celsius) per each fan speed level
 temps=(55 60 62 65 68 72 76 80)
@@ -14,14 +20,14 @@ function acpi_call {
     cat /proc/acpi/call; echo
 }
 
-# convert number from decimal to hexadecimal
+# convert number from decimal to hexadecimal form
 function dec_to_hex {
     printf '%x' $1
 }
 
-# computing address of each fan speed level
+# get address of each fan speed level
 function level_to_addr {
-    echo $((1335 + $1))
+    echo $(($FAN_SPEED_BASE_ADDR + $1))
 }
 
 # assigning fan speed level and temperature
@@ -31,8 +37,8 @@ function level_temp_set {
 
 # check "temps" length
 if [ ${#temps[@]} != 8 ]; then
-    echo 'Lenght of array of temperature "temps" must be exactly 8.'
-    exit
+    echo 'Error: length of the "temps" array must be exactly 8.'
+    exit 1
 fi
 
 # perform sleep before executing
