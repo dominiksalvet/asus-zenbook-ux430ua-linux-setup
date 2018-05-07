@@ -18,6 +18,24 @@ sudo make install
 
 The program will asks for a sudo password, because it needs to write configuration files to a location that is unaccessible to a normal user account.
 
+---
+
+If it is required to uninstall the program, open a terminal emulator in *asus-zenbook-ux430ua-linux* directory and type:
+
+```bash
+sudo make uninstall
+```
+
+## Installation configuration
+
+The default installation directory is */usr/local/bin*. To change it, pass your choosed installation directory path in `INSTALL_DIR` to a `make` command. For example:
+
+```bash
+sudo make install INSTALL_DIR=opt
+```
+
+In case of uninstalling from a custom installation directory, do not forget to use it as well.
+
 ## Customize the fan speed policy
 
 The fan speed policy must be stored statically in a source script to prevent accessing a file while running the script. Hence the fan speed policy is defined by values assigned to the array variable called `temps` in a *fan-config* file. A default fan speed policy looks like this:
@@ -43,7 +61,7 @@ Table equivalent:
 To customize the fan speed policy, edit the array assignment:
 
 * directly in [*src/fan-config*](src/fan-config) file, if customizing **before** the installation
-* in */usr/local/bin/fan-config* file, if customizing **after** the installation
+* in *INSTALL_DIR/fan-config* file, if customizing **after** the installation
 
 Both cases require reboot to apply the changes!
 
