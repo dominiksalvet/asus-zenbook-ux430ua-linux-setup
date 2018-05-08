@@ -53,8 +53,8 @@ find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
 # create /etc/rc.local file if it does not exist
 if [ ! -e /etc/rc.local ]; then
     echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
-# append a successful exit if it does not exist one
-elif grep -q "$find_exit_0" /etc/rc.local; then
+# append a successful exit if it does not contain one
+elif ! grep -q "$find_exit_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 
