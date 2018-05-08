@@ -29,7 +29,7 @@ help:
 	@echo 'uninstall    uninstall the program'
 
 install:
-	./$(SRC_DIR)/install $(INSTALL_DIR)
+	cd $(SRC_DIR) && ./install $(INSTALL_DIR)
 
 uninstall:
-	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
+	cd $(SRC_DIR) && ./uninstall $(INSTALL_DIR)
