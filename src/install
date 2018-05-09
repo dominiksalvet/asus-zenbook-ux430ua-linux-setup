@@ -13,6 +13,8 @@
 sw_missing=0
 # software is missing if at least one piece of software is missing
 $(type echo > /dev/null); ((sw_missing |= $?))
+$(type cd > /dev/null); ((sw_missing |= $?))
+$(type dirname > /dev/null); ((sw_missing |= $?))
 $(type read > /dev/null); ((sw_missing |= $?))
 $(type grep > /dev/null); ((sw_missing |= $?))
 $(type cat > /dev/null); ((sw_missing |= $?))
@@ -34,6 +36,9 @@ if [ "$EUID" -ne 0 ]; then
     echo 'Please run as root, installation canceled.'
     exit 2
 fi
+
+# change directory to the script directory
+cd "$(dirname "$0")"
 
 # notice
 echo
@@ -108,7 +113,7 @@ if [[ $jack_config = y ]]; then
     apt install alsa-tools -y
 
     echo "$jack_config_string" > $1/jack-config
-    chmod +x $1/jack-config
+    chmod a+x $1/jack-config
     sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/jack-config\n&|' /etc/rc.local
     ln -s $1/jack-config /lib/systemd/system-sleep/jack-config
 fi
@@ -119,7 +124,7 @@ if [[ $fan_config = y ]]; then
     echo 'acpi_call' >> /etc/modules
 
     echo "$fan_config_string" > $1/fan-config
-    chmod +x $1/fan-config
+    chmod a+x $1/fan-config
     sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/fan-config\n&|' /etc/rc.local
     ln -s $1/fan-config /lib/systemd/system-sleep/fan-config
 fi
