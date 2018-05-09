@@ -12,13 +12,14 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
+$(type [ > /dev/null); ((sw_missing |= $?))
 $(type echo > /dev/null); ((sw_missing |= $?))
 $(type cat > /dev/null); ((sw_missing |= $?))
 $(type printf > /dev/null); ((sw_missing |= $?))
 $(type sleep > /dev/null); ((sw_missing |= $?))
 
 # check if some software is missing
-if [[ "$sw_missing" -ne 0 ]]; then
+if [ "$sw_missing" -ne 0 ]; then
     echo 'Required software is missing, configuration canceled.'
     exit 1
 fi

@@ -12,13 +12,14 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
+$(type [ > /dev/null); ((sw_missing |= $?))
 $(type echo > /dev/null); ((sw_missing |= $?))
 $(type read > /dev/null); ((sw_missing |= $?))
 $(type rm > /dev/null); ((sw_missing |= $?))
 $(type sed > /dev/null); ((sw_missing |= $?))
 
 # check if some software is missing
-if [[ "$sw_missing" -ne 0 ]]; then
+if [ "$sw_missing" -ne 0 ]; then
     echo 'Required software is missing, uninstallation canceled.'
     exit 1
 fi
@@ -33,13 +34,13 @@ fi
 
 # user confirmation
 read -p 'Do you really want to uninstall ASUS ZenBook UX430UA configuration? [y/n] ' user_agreed
-if [[ $user_agreed != y ]]; then
+if [ $user_agreed != y ]; then
     echo 'Uninstallation canceled.'
     exit
 fi
 
 # check if installed in given installation directory
-if [[ ! -e $1/jack-config ]] && [[ ! -e $1/fan-config ]]; then
+if [ ! -e $1/jack-config ] && [ ! -e $1/fan-config ]; then
     echo 'The program is not installed in the "'"$1"'"" directory, uninstallation canceled.'
     exit 3
 fi
