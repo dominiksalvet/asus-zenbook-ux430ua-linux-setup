@@ -11,11 +11,13 @@
 ## SOFTWARE DEPENDECIES
 
 sw_missing=0
-$(type echo > /dev/null); sw_missing=$(( $sw_missing | $? ))
-$(type read > /dev/null); sw_missing=$(( $sw_missing | $? ))
-$(type rm > /dev/null); sw_missing=$(( $sw_missing | $? ))
-$(type sed > /dev/null); sw_missing=$(( $sw_missing | $? ))
+# software is missing if at least one piece of software is missing
+$(type echo > /dev/null); ((sw_missing |= $?))
+$(type read > /dev/null); ((sw_missing |= $?))
+$(type rm > /dev/null); ((sw_missing |= $?))
+$(type sed > /dev/null); ((sw_missing |= $?))
 
+# check if some software is missing
 if [[ "$sw_missing" -ne 0 ]]; then
     echo 'Required software is missing, uninstallation canceled.'
     exit 1
