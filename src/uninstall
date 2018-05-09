@@ -8,10 +8,25 @@
 #     $1 - installation directory path
 #-------------------------------------------------------------------------------
 
+## SOFTWARE DEPENDECIES
+
+sw_missing=0
+$(type echo > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type read > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type rm > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type sed > /dev/null); sw_missing=$(( $sw_missing | $? ))
+
+if [[ "$sw_missing" -ne 0 ]]; then
+    echo 'Required software is missing, uninstallation canceled.'
+    exit 1
+fi
+
+## USER SETUP
+
 # check if running as root
 if [ "$EUID" -ne 0 ]; then
     echo 'Please run as root, uninstallation canceled.'
-    exit
+    exit 2
 fi
 
 # user confirmation
@@ -24,8 +39,10 @@ fi
 # check if installed in given installation directory
 if [[ ! -e $1/jack-config ]] && [[ ! -e $1/fan-config ]]; then
     echo 'The program is not installed in the "'"$1"'"" directory, uninstallation canceled.'
-    exit 1
+    exit 3
 fi
+
+## UNINSTALLATION
 
 echo
 echo '================================================================================'
@@ -48,7 +65,6 @@ echo
 echo 'Notice:'
 echo 'The "acpi_call" line must be manually removed from the "/etc/modules" file, if it is not used.'
 echo 'The "alsa-tools" and "acpi-call-dkms" packages must be uninstalled manually, if they are not used.'
-echo
 
 # finished
 echo

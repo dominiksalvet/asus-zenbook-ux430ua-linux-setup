@@ -8,10 +8,29 @@
 #     $1 - installation directory path
 #-------------------------------------------------------------------------------
 
+## SOFTWARE DEPENDECIES
+
+sw_missing=0
+$(type echo > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type read > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type grep > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type cat > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type apt > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type chmod > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type sed > /dev/null); sw_missing=$(( $sw_missing | $? ))
+$(type ln > /dev/null); sw_missing=$(( $sw_missing | $? ))
+
+if [[ "$sw_missing" -ne 0 ]]; then
+    echo 'Required software is missing, installation canceled.'
+    exit 1
+fi
+
+## USER SETUP
+
 # check if running as root
 if [ "$EUID" -ne 0 ]; then
     echo 'Please run as root, installation canceled.'
-    exit
+    exit 2
 fi
 
 # notice
@@ -62,7 +81,7 @@ if [[ $jack_config = y ]]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
         echo 'The jack-config file does not exist, installation canceled.'
-        exit 1
+        exit 3
     else
         # load jack-config file content into variable
         jack_config_string=$(cat 'jack-config')
@@ -73,7 +92,7 @@ if [[ $fan_config = y ]]; then
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
         echo 'The fan-config file does not exist, installation canceled.'
-        exit 2
+        exit 4
     else
         # load fan-config file content into variable
         fan_config_string=$(cat 'fan-config')
