@@ -42,7 +42,6 @@ fi
 cd "$(dirname "$0")"
 
 # notice
-echo
 echo 'Notice:'
 echo 'The "/etc/rc.local" file will be created if it does not exist.'
 echo 'Option 1) will install "alsa-tools" package.'
@@ -51,8 +50,8 @@ echo
 
 # installation setup
 echo 'Installation setup:'
-read -p '1) Configure 3.5 mm jack output volume to be louder? [y/n] ' jack_config
-read -p '2) Configure the fan speed policy to be less aggressive? [y/n] ' fan_config
+read -p '1) Set up 3.5 mm jack output volume to be louder? [y/n] ' jack_config
+read -p '2) Set up the fan speed policy to be less aggressive? [y/n] ' fan_config
 echo
 
 # check if at least one option selected
@@ -61,7 +60,14 @@ if [ "$jack_config" != y ] && [ "$fan_config" != y ]; then
     exit
 fi
 
-read -p 'Are you really sure to proceed? [y/n] ' user_agreed
+# summary
+echo 'Summary:'
+if [ "$jack_config" = y ]; then echo 'The 1) option will be applied.'; fi
+if [ "$fan_config" = y ]; then echo 'The 2) option will be applied.'; fi
+
+# user confirmation
+echo
+read -p 'Are you really sure to continue? [y/n] ' user_agreed
 if [ $user_agreed != y ]; then
     echo 'Installation canceled.'
     exit

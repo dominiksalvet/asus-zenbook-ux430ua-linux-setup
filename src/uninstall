@@ -32,17 +32,26 @@ if [ "$EUID" -ne 0 ]; then
     exit 2
 fi
 
+jack_config_exist=0; if [ -e $1/jack-config ]; then jack_config_exist=1; fi
+fan_config_exist=0; if [ -e $1/fan-config ]; then fan_config_exist=1; fi
+
+# check if installed in given installation directory
+if [ $jack_config_exist = 0 ] && [ $fan_config_exist = 0 ]; then
+    echo "The program is not installed in given \"$1\" directory, uninstallation canceled."
+    exit 3
+fi
+
+# summary
+echo 'Summary:'
+if [ $jack_config_exist = 1 ]; then echo 'The 3.5 mm jack output volume will be set to the system default.'; fi
+if [ $fan_config_exist = 1 ]; then echo 'The fan speed policy will be set to the system default.'; fi
+
 # user confirmation
-read -p 'Do you really want to uninstall ASUS ZenBook UX430UA configuration? [y/n] ' user_agreed
+echo
+read -p 'Are you really sure to continue? [y/n] ' user_agreed
 if [ $user_agreed != y ]; then
     echo 'Uninstallation canceled.'
     exit
-fi
-
-# check if installed in given installation directory
-if [ ! -e $1/jack-config ] && [ ! -e $1/fan-config ]; then
-    echo 'The program is not installed in the "'"$1"'"" directory, uninstallation canceled.'
-    exit 3
 fi
 
 ## UNINSTALLATION
@@ -52,16 +61,20 @@ echo '==========================================================================
 echo
 echo 'Uninstalling ...'
 
-# revert less aggressive fan speed policy setup
-rm -f /lib/systemd/system-sleep/fan-config
-sed -i -e '\|'"$1"'/fan-config|d' /etc/rc.local
-rm -f $1/fan-config
-# acpi_call is not removed from /etc/modules (in case some program uses it)
+if [ $fan_config_exist = 1 ]; then
+	# revert less aggressive fan speed policy setup
+	rm -f /lib/systemd/system-sleep/fan-config
+	sed -i -e '\|'"$1"'/fan-config|d' /etc/rc.local
+	rm -f $1/fan-config
+	# acpi_call is not removed from /etc/modules (in case some program uses it)
+fi
 
-# revert 3.5 mm jack output volume setup
-rm -f /lib/systemd/system-sleep/jack-config
-sed -i -e '\|'"$1"'/jack-config|d' /etc/rc.local
-rm -f $1/jack-config
+if [ $jack_config_exist = 1 ]; then
+	# revert 3.5 mm jack output volume setup
+	rm -f /lib/systemd/system-sleep/jack-config
+	sed -i -e '\|'"$1"'/jack-config|d' /etc/rc.local
+	rm -f $1/jack-config
+fi
 
 # notice
 echo
