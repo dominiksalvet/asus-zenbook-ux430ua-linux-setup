@@ -64,7 +64,7 @@ echo 'Uninstalling ...'
 if [ $fan_config_exist = 1 ]; then
     # revert less aggressive fan speed policy setup
     rm -f /lib/systemd/system-sleep/fan-config
-    sed -i -e '\|'"$1"'/fan-config|d' /etc/rc.local
+    sed -i -e '\!^[^#]*'"$1"'/fan-config\( .*\|\s*\)$!d' /etc/rc.local
     rm -f $1/fan-config
     # acpi_call is not removed from /etc/modules (in case some program uses it)
 fi
@@ -72,7 +72,7 @@ fi
 if [ $jack_config_exist = 1 ]; then
     # revert 3.5 mm jack output volume setup
     rm -f /lib/systemd/system-sleep/jack-config
-    sed -i -e '\|'"$1"'/jack-config|d' /etc/rc.local
+    sed -i -e '\!^[^#]*'"$1"'/jack-config\( .*\|\s*\)$!d' /etc/rc.local
     rm -f $1/jack-config
 fi
 
