@@ -78,7 +78,7 @@ echo '==========================================================================
 echo
 echo 'Installing ...'
 
-# description of line containing a successful exit of a shell script
+# regular expression of line containing a successful exit of a shell script
 find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
 
 ## FILE DEPENDENCIES
