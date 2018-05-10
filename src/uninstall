@@ -32,10 +32,11 @@ if [ $EUID -ne 0 ]; then
     exit 2
 fi
 
+# check installed files
 jack_config_exist=n; if [ -e "$1/jack-config" ]; then jack_config_exist=y; fi
 fan_config_exist=n; if [ -e "$1/fan-config" ]; then fan_config_exist=y; fi
 
-# check if installed in given installation directory
+# check if the program is installed in given installation directory
 if [ $jack_config_exist = n ] && [ $fan_config_exist = n ]; then
     echo "The program is not installed in given \"$1\" directory, uninstallation canceled."
     exit 3
