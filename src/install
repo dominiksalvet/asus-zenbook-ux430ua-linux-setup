@@ -16,6 +16,7 @@ type [ > /dev/null; ((sw_missing |= $?))
 type echo > /dev/null; ((sw_missing |= $?))
 type cd > /dev/null; ((sw_missing |= $?))
 type dirname > /dev/null; ((sw_missing |= $?))
+type printf > /dev/null; ((sw_missing |= $?))
 type read > /dev/null; ((sw_missing |= $?))
 type grep > /dev/null; ((sw_missing |= $?))
 type cat > /dev/null; ((sw_missing |= $?))
@@ -48,10 +49,26 @@ echo 'Option 1) will install "alsa-tools" package.'
 echo 'Option 2) will install "acpi-call-dkms" package.'
 echo
 
+# check if any previously installed files exist
+jack_config_exist=n; if [ -e "$1/jack-config" ]; then jack_config_exist=y; fi
+fan_config_exist=n; if [ -e "$1/fan-config" ]; then fan_config_exist=y; fi
+
 # installation setup
 echo 'Installation setup:'
-read -p '1) Set up 3.5 mm jack output volume to be louder? [y/n] ' setup_jack
-read -p '2) Set up the fan speed policy to be less aggressive? [y/n] ' setup_fan
+printf '1) Set up 3.5 mm jack output volume to be louder? [y/n] '
+if [ $jack_config_exist = y ]; then
+    echo 'n (already set up)'
+    setup_jack=n
+else
+    read setup_jack
+fi
+printf '2) Set up the fan speed policy to be less aggressive? [y/n] '
+if [ $fan_config_exist = y ]; then
+    echo 'n (already set up)'
+    setup_fan=n
+else
+    read setup_fan
+fi
 echo
 
 # check if at least one option selected
