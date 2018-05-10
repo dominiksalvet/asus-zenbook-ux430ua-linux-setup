@@ -7,8 +7,8 @@
 
 # only bash is supported
 SHELL := /bin/bash
-SED :=
-COLUMN :=
+SED := sed
+COLUMN := column
 
 ## PROJECT
 
@@ -26,7 +26,7 @@ help: # show this help
 	@echo 'Usage: make [target]'
 	@echo
 	@echo 'targets:'
-	@sed -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;' makefile | column -t -s '#'
+	@$(SED) -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;' makefile | $(COLUMN) -t -s '#'
 
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
