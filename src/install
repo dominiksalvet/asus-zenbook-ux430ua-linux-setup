@@ -39,7 +39,7 @@ if [ $EUID -ne 0 ]; then
 fi
 
 # change directory to the script directory
-cd "$(dirname "$0")"
+cd -- "$(dirname -- "$0")"
 
 # notice
 echo 'Notice:'
@@ -122,7 +122,7 @@ if [ "$jack_config" = y ]; then
     echo "$jack_config_string" > "$1/jack-config"
     chmod a+x "$1/jack-config"
     sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/jack-config\n&|' /etc/rc.local
-    ln -s "$1/jack-config" /lib/systemd/system-sleep/jack-config
+    ln -s -- "$1/jack-config" /lib/systemd/system-sleep/jack-config
 fi
 
 # apply less aggressive fan speed policy setup
@@ -133,7 +133,7 @@ if [ "$fan_config" = y ]; then
     echo "$fan_config_string" > "$1/fan-config"
     chmod a+x "$1/fan-config"
     sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/fan-config\n&|' /etc/rc.local
-    ln -s "$1/fan-config" /lib/systemd/system-sleep/fan-config
+    ln -s -- "$1/fan-config" /lib/systemd/system-sleep/fan-config
 fi
 
 # finished
