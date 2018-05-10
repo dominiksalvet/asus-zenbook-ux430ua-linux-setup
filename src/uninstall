@@ -12,14 +12,14 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
-$(type [ > /dev/null); ((sw_missing |= $?))
-$(type echo > /dev/null); ((sw_missing |= $?))
-$(type read > /dev/null); ((sw_missing |= $?))
-$(type rm > /dev/null); ((sw_missing |= $?))
-$(type sed > /dev/null); ((sw_missing |= $?))
+type [ > /dev/null; ((sw_missing |= $?))
+type echo > /dev/null; ((sw_missing |= $?))
+type read > /dev/null; ((sw_missing |= $?))
+type rm > /dev/null; ((sw_missing |= $?))
+type sed > /dev/null; ((sw_missing |= $?))
 
 # check if some software is missing
-if [ "$sw_missing" -ne 0 ]; then
+if [ $sw_missing -ne 0 ]; then
     echo 'Required software is missing, uninstallation canceled.'
     exit 1
 fi
@@ -27,13 +27,13 @@ fi
 ## USER SETUP
 
 # check if running as root
-if [ "$EUID" -ne 0 ]; then
+if [ $EUID -ne 0 ]; then
     echo 'Please run as root, uninstallation canceled.'
     exit 2
 fi
 
-jack_config_exist=0; if [ -e $1/jack-config ]; then jack_config_exist=1; fi
-fan_config_exist=0; if [ -e $1/fan-config ]; then fan_config_exist=1; fi
+jack_config_exist=0; if [ -e "$1/jack-config" ]; then jack_config_exist=1; fi
+fan_config_exist=0; if [ -e "$1/fan-config" ]; then fan_config_exist=1; fi
 
 # check if installed in given installation directory
 if [ $jack_config_exist = 0 ] && [ $fan_config_exist = 0 ]; then
@@ -49,7 +49,7 @@ if [ $fan_config_exist = 1 ]; then echo 'The fan speed policy will be set to the
 # user confirmation
 echo
 read -p 'Are you really sure to continue? [y/n] ' user_agreed
-if [ $user_agreed != y ]; then
+if [ "$user_agreed" != y ]; then
     echo 'Uninstallation canceled.'
     exit
 fi
@@ -65,7 +65,7 @@ if [ $fan_config_exist = 1 ]; then
     # revert less aggressive fan speed policy setup
     rm -f /lib/systemd/system-sleep/fan-config
     sed -i -e '\!^[^#]*'"$1"'/fan-config\( .*\|\s*\)$!d' /etc/rc.local
-    rm -f $1/fan-config
+    rm -f "$1/fan-config"
     # acpi_call is not removed from /etc/modules (in case some program uses it)
 fi
 
@@ -73,7 +73,7 @@ if [ $jack_config_exist = 1 ]; then
     # revert 3.5 mm jack output volume setup
     rm -f /lib/systemd/system-sleep/jack-config
     sed -i -e '\!^[^#]*'"$1"'/jack-config\( .*\|\s*\)$!d' /etc/rc.local
-    rm -f $1/jack-config
+    rm -f "$1/jack-config"
 fi
 
 # notice

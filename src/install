@@ -12,20 +12,20 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
-$(type [ > /dev/null); ((sw_missing |= $?))
-$(type echo > /dev/null); ((sw_missing |= $?))
-$(type cd > /dev/null); ((sw_missing |= $?))
-$(type dirname > /dev/null); ((sw_missing |= $?))
-$(type read > /dev/null); ((sw_missing |= $?))
-$(type grep > /dev/null); ((sw_missing |= $?))
-$(type cat > /dev/null); ((sw_missing |= $?))
-$(type apt > /dev/null); ((sw_missing |= $?))
-$(type chmod > /dev/null); ((sw_missing |= $?))
-$(type sed > /dev/null); ((sw_missing |= $?))
-$(type ln > /dev/null); ((sw_missing |= $?))
+type [ > /dev/null; ((sw_missing |= $?))
+type echo > /dev/null; ((sw_missing |= $?))
+type cd > /dev/null; ((sw_missing |= $?))
+type dirname > /dev/null; ((sw_missing |= $?))
+type read > /dev/null; ((sw_missing |= $?))
+type grep > /dev/null; ((sw_missing |= $?))
+type cat > /dev/null; ((sw_missing |= $?))
+type apt > /dev/null; ((sw_missing |= $?))
+type chmod > /dev/null; ((sw_missing |= $?))
+type sed > /dev/null; ((sw_missing |= $?))
+type ln > /dev/null; ((sw_missing |= $?))
 
 # check if some software is missing
-if [ "$sw_missing" -ne 0 ]; then
+if [ $sw_missing -ne 0 ]; then
     echo 'Required software is missing, installation canceled.'
     exit 1
 fi
@@ -33,7 +33,7 @@ fi
 ## USER SETUP
 
 # check if running as root
-if [ "$EUID" -ne 0 ]; then
+if [ $EUID -ne 0 ]; then
     echo 'Please run as root, installation canceled.'
     exit 2
 fi
@@ -68,7 +68,7 @@ if [ "$fan_config" = y ]; then echo 'The 2) option will be applied.'; fi
 # user confirmation
 echo
 read -p 'Are you really sure to continue? [y/n] ' user_agreed
-if [ $user_agreed != y ]; then
+if [ "$user_agreed" != y ]; then
     echo 'Installation canceled.'
     exit
 fi
@@ -91,49 +91,49 @@ elif ! grep -q "$find_exit_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 
-if [ $jack_config = y ]; then
+if [ "$jack_config" = y ]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
-        echo 'The jack-config file does not exist, installation canceled.'
+        echo 'The "jack-config" file does not exist, installation canceled.'
         exit 3
     else
         # load jack-config file content into variable
-        jack_config_string=$(cat 'jack-config')
+        jack_config_string=$(cat jack-config)
     fi
 fi
 
-if [ $fan_config = y ]; then
+if [ "$fan_config" = y ]; then
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
-        echo 'The fan-config file does not exist, installation canceled.'
+        echo 'The "fan-config" file does not exist, installation canceled.'
         exit 4
     else
         # load fan-config file content into variable
-        fan_config_string=$(cat 'fan-config')
+        fan_config_string=$(cat fan-config)
     fi
 fi
 
 ## INSTALLATION
 
 # apply 3.5 mm jack output volume setup
-if [ $jack_config = y ]; then
+if [ "$jack_config" = y ]; then
     apt install alsa-tools -y
 
-    echo "$jack_config_string" > $1/jack-config
-    chmod a+x $1/jack-config
+    echo "$jack_config_string" > "$1/jack-config"
+    chmod a+x "$1/jack-config"
     sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/jack-config\n&|' /etc/rc.local
-    ln -s $1/jack-config /lib/systemd/system-sleep/jack-config
+    ln -s "$1/jack-config" /lib/systemd/system-sleep/jack-config
 fi
 
 # apply less aggressive fan speed policy setup
-if [ $fan_config = y ]; then
+if [ "$fan_config" = y ]; then
     apt install acpi-call-dkms -y
     echo 'acpi_call' >> /etc/modules
 
-    echo "$fan_config_string" > $1/fan-config
-    chmod a+x $1/fan-config
+    echo "$fan_config_string" > "$1/fan-config"
+    chmod a+x "$1/fan-config"
     sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/fan-config\n&|' /etc/rc.local
-    ln -s $1/fan-config /lib/systemd/system-sleep/fan-config
+    ln -s "$1/fan-config" /lib/systemd/system-sleep/fan-config
 fi
 
 # finished
