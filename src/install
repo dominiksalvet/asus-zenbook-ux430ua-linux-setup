@@ -100,14 +100,6 @@ find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
 
 ## FILE DEPENDENCIES
 
-# create /etc/rc.local file if it does not exist
-if [ ! -e /etc/rc.local ]; then
-    echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
-# append a successful exit if it does not contain one
-elif ! grep -q "$find_exit_0" /etc/rc.local; then
-    echo 'exit 0' >> /etc/rc.local
-fi
-
 if [ "$setup_jack" = y ]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
@@ -120,6 +112,12 @@ if [ "$setup_jack" = y ]; then
 fi
 
 if [ "$setup_fan" = y ]; then
+    # fan-config additional software dependency check
+    type sleep > /dev/null;
+    if [ $? -ne 0 ]; then
+        echo 'Required software is missing, installation canceled.'
+        exit 1
+    fi
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
         echo 'The "fan-config" file does not exist, installation canceled.'
@@ -128,6 +126,14 @@ if [ "$setup_fan" = y ]; then
         # load fan-config file content into variable
         fan_config_string=$(cat fan-config)
     fi
+fi
+
+# create /etc/rc.local file if it does not exist
+if [ ! -e /etc/rc.local ]; then
+    echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
+# append a successful exit if it does not contain one
+elif ! grep -q "$find_exit_0" /etc/rc.local; then
+    echo 'exit 0' >> /etc/rc.local
 fi
 
 ## INSTALLATION
