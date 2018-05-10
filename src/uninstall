@@ -32,19 +32,19 @@ if [ $EUID -ne 0 ]; then
     exit 2
 fi
 
-jack_config_exist=0; if [ -e "$1/jack-config" ]; then jack_config_exist=1; fi
-fan_config_exist=0; if [ -e "$1/fan-config" ]; then fan_config_exist=1; fi
+jack_config_exist=n; if [ -e "$1/jack-config" ]; then jack_config_exist=y; fi
+fan_config_exist=n; if [ -e "$1/fan-config" ]; then fan_config_exist=y; fi
 
 # check if installed in given installation directory
-if [ $jack_config_exist = 0 ] && [ $fan_config_exist = 0 ]; then
+if [ $jack_config_exist = n ] && [ $fan_config_exist = n ]; then
     echo "The program is not installed in given \"$1\" directory, uninstallation canceled."
     exit 3
 fi
 
 # summary
 echo 'Summary:'
-if [ $jack_config_exist = 1 ]; then echo 'The 3.5 mm jack output volume will be set to the system default.'; fi
-if [ $fan_config_exist = 1 ]; then echo 'The fan speed policy will be set to the system default.'; fi
+if [ $jack_config_exist = y ]; then echo 'The 3.5 mm jack output volume will be set to the system default.'; fi
+if [ $fan_config_exist = y ]; then echo 'The fan speed policy will be set to the system default.'; fi
 
 # user confirmation
 echo
@@ -61,7 +61,7 @@ echo '==========================================================================
 echo
 echo 'Uninstalling ...'
 
-if [ $fan_config_exist = 1 ]; then
+if [ $fan_config_exist = y ]; then
     # revert less aggressive fan speed policy setup
     rm -f /lib/systemd/system-sleep/fan-config
     sed -i -e '\!^[^#]*'"$1"'/fan-config\( .*\|\s*\)$!d' /etc/rc.local
@@ -69,7 +69,7 @@ if [ $fan_config_exist = 1 ]; then
     # acpi_call is not removed from /etc/modules (in case some program uses it)
 fi
 
-if [ $jack_config_exist = 1 ]; then
+if [ $jack_config_exist = y ]; then
     # revert 3.5 mm jack output volume setup
     rm -f /lib/systemd/system-sleep/jack-config
     sed -i -e '\!^[^#]*'"$1"'/jack-config\( .*\|\s*\)$!d' /etc/rc.local

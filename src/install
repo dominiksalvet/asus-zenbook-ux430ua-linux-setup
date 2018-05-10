@@ -50,20 +50,20 @@ echo
 
 # installation setup
 echo 'Installation setup:'
-read -p '1) Set up 3.5 mm jack output volume to be louder? [y/n] ' jack_config
-read -p '2) Set up the fan speed policy to be less aggressive? [y/n] ' fan_config
+read -p '1) Set up 3.5 mm jack output volume to be louder? [y/n] ' setup_jack
+read -p '2) Set up the fan speed policy to be less aggressive? [y/n] ' setup_fan
 echo
 
 # check if at least one option selected
-if [ "$jack_config" != y ] && [ "$fan_config" != y ]; then
+if [ "$setup_jack" != y ] && [ "$setup_fan" != y ]; then
     echo 'No option selected, installation canceled.'
     exit
 fi
 
 # summary
 echo 'Summary:'
-if [ "$jack_config" = y ]; then echo 'The 1) option will be applied.'; fi
-if [ "$fan_config" = y ]; then echo 'The 2) option will be applied.'; fi
+if [ "$setup_jack" = y ]; then echo 'The 1) option will be applied.'; fi
+if [ "$setup_fan" = y ]; then echo 'The 2) option will be applied.'; fi
 
 # user confirmation
 echo
@@ -91,7 +91,7 @@ elif ! grep -q "$find_exit_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 
-if [ "$jack_config" = y ]; then
+if [ "$setup_jack" = y ]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
         echo 'The "jack-config" file does not exist, installation canceled.'
@@ -102,7 +102,7 @@ if [ "$jack_config" = y ]; then
     fi
 fi
 
-if [ "$fan_config" = y ]; then
+if [ "$setup_fan" = y ]; then
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
         echo 'The "fan-config" file does not exist, installation canceled.'
@@ -116,7 +116,7 @@ fi
 ## INSTALLATION
 
 # apply 3.5 mm jack output volume setup
-if [ "$jack_config" = y ]; then
+if [ "$setup_jack" = y ]; then
     apt install alsa-tools -y
 
     echo "$jack_config_string" > "$1/jack-config"
@@ -126,7 +126,7 @@ if [ "$jack_config" = y ]; then
 fi
 
 # apply less aggressive fan speed policy setup
-if [ "$fan_config" = y ]; then
+if [ "$setup_fan" = y ]; then
     apt install acpi-call-dkms -y
     echo 'acpi_call' >> /etc/modules
 
