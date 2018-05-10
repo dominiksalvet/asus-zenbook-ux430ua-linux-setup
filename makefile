@@ -7,6 +7,8 @@
 
 # only bash is supported
 SHELL := /bin/bash
+SED :=
+COLUMN :=
 
 ## PROJECT
 
@@ -20,16 +22,14 @@ INSTALL_DIR := /usr/local/bin
 
 all: help
 
-help:
+help: # show this help
 	@echo 'Usage: make [target]'
 	@echo
 	@echo 'targets:'
-	@echo 'help         show this help'
-	@echo 'install      install the program'
-	@echo 'uninstall    uninstall the program'
+	@sed -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;' makefile | column -t -s '#'
 
-install:
+install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
 
-uninstall:
+uninstall: # uninstall this program
 	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
