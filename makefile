@@ -7,6 +7,7 @@
 
 # only bash is supported
 SHELL := /bin/bash
+ECHO := echo
 SED := sed
 COLUMN := column
 
@@ -23,10 +24,10 @@ INSTALL_DIR := /usr/local/bin
 all: help
 
 help: # show this help
-	@echo 'Usage: make [target]'
-	@echo
-	@echo 'targets:'
-	@$(SED) -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;' makefile | $(COLUMN) -t -s '#'
+	@$(ECHO) 'Usage: make [target]'
+	@$(ECHO)
+	@$(ECHO) 'targets:'
+	@$(SED) -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;s/#/<NUMBER SIGN>/2g;' makefile | $(COLUMN) -t -s '#'
 
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
