@@ -45,8 +45,8 @@ cd -- "$(dirname -- "$0")"
 # notice
 echo 'Notice:'
 echo 'The "/etc/rc.local" file will be created if it does not exist.'
-echo 'Option 1) will install "alsa-tools" package.'
-echo 'Option 2) will install "acpi-call-dkms" package.'
+echo 'Option 1) will also install "alsa-tools" package.'
+echo 'Option 2) will also install "acpi-call-dkms" package.'
 echo
 
 # check if any previously installed files exist
