@@ -40,7 +40,7 @@ In case of uninstalling from a custom installation directory, do not forget to u
 
 ### Customize the fan speed policy
 
-The fan speed policy is defined by 8 numbers that represent temperature boundaries in Celsius between individual fan speed levels. That numbers should be increasing as they increase the fan speed level. This 8 numbers are delivered in a string separated by spaces.
+The fan speed policy is defined by 8 numbers that represent temperature boundaries in Celsius between individual fan speed levels. Those numbers should be increasing as they increase the fan speed level.
 
 The default values are: `55 60 62 65 68 72 76 80`
 
@@ -57,11 +57,11 @@ Table equivalent:
 | 6             | 76               |
 | 7 (max)       | 80<              |
 
-However, during the installation process you will be asked if you like to use your custom values. If so, you can directly type them into the program, which will check valid format of your input. Be aware that meaning of the entered numbers is not further checked though!
+However, during the installation process you will be asked if you like to use your custom values. If so, you can directly type them into the program, which will throw your input againts a format check. Input with valid format consists of 8 not negative numbers separated by one space. Nevertheless, be aware that meaning of the entered numbers is not further checked though!
 
 ---
 
-An examples of using custom temperatures:
+An example of correct using custom temperatures:
 
 ```
 ...
