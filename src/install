@@ -126,13 +126,33 @@ if [ "$setup_fan" = y ]; then
         # load fan-config file content into variable
         fan_config_string=$(cat fan-config)
     fi
+
+    # check if use custom fan speed level temperatures
+    echo 'Default temperatures per each fan speed level: 55 60 62 65 68 72 76 80'
+    echo 'Enter custom temperatures or hit enter to use the default ones.'
+    # parse user input
+    custom_fan_temps_valid=n
+    while [ $custom_fan_temps_valid = n ]; do
+        read -p "> " custom_fan_temps
+        if [ -z "$custom_fan_temps" ]; then
+            custom_fan_temps_valid=y
+        else
+            # check if valid temperatures format
+            echo "$custom_fan_temps" | grep -q -e '^[0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+$'
+            if [ $? -eq 0 ]; then
+                custom_fan_temps_valid=y
+                # modify the script loaded in the variable to reflect new temperature levels
+                fan_config_string=$(echo "$fan_config_string" | sed -e '/^fan_temps/!b;s/(.*)/('"$custom_fan_temps"')/')
+            fi
+        fi
+    done
 fi
 
 # create /etc/rc.local file if it does not exist
 if [ ! -e /etc/rc.local ]; then
     echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
 # append a successful exit if it does not contain one
-elif ! grep -q "$find_exit_0" /etc/rc.local; then
+elif ! grep -q -e "$find_exit_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 

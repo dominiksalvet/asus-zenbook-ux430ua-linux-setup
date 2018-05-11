@@ -26,7 +26,9 @@ If it is required to uninstall the program, open a terminal emulator in *asus-ze
 sudo make uninstall
 ```
 
-## Installation configuration
+## Configuration
+
+### Choose installation directory
 
 The default installation directory is */usr/local/bin*. To change it, pass your choosed installation directory path in `INSTALL_DIR` to a `make` command. For example:
 
@@ -36,14 +38,11 @@ sudo make install INSTALL_DIR=/opt
 
 In case of uninstalling from a custom installation directory, do not forget to use it as well.
 
-## Customize the fan speed policy
+### Customize the fan speed policy
 
-The fan speed policy must be stored statically in a source script to prevent accessing a file while running the script. Hence the fan speed policy is defined by values assigned to the array variable called `temps` in a *fan-config* file. A default fan speed policy looks like this:
+The fan speed policy is defined by 8 numbers that represent temperature boundaries in Celsius between individual fan speed levels. That numbers should be increasing as they increase the fan speed level. This 8 numbers are delivered in a string separated by spaces.
 
-```bash
-# array of temperatures (in Celsius) per each fan speed level
-temps=(55 60 62 65 68 72 76 80)
-```
+The default values are: `55 60 62 65 68 72 76 80`
 
 Table equivalent:
 
@@ -58,12 +57,20 @@ Table equivalent:
 | 6             | 76               |
 | 7 (max)       | 80<              |
 
-To customize the fan speed policy, edit the array assignment:
+However, during the installation process you will be asked if you like to use your custom values. If so, you can directly type them into the program, which will check valid format of your input. Be aware that meaning of the entered numbers is not further checked though!
 
-* directly in [*src/fan-config*](src/fan-config) file, if customizing **before** the installation
-* in *INSTALL_DIR/fan-config* file, if customizing **after** the installation
+---
 
-Both cases require reboot to apply the changes!
+An examples of using custom temperatures:
+
+```
+...
+Installing ...
+Default temperatures per each fan speed level: 55 60 62 65 68 72 76 80
+Enter custom temperatures or hit enter to use the default ones.
+> 45 50 55 60 65 70 75 80
+...
+```
 
 ## License
 

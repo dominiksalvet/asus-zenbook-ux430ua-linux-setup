@@ -30,7 +30,7 @@ fi
 FAN_SPEED_BASE_ADDR=1335
 
 # array of temperatures (in Celsius) per each fan speed level
-temps=(55 60 62 65 68 72 76 80)
+fan_temps=(55 60 62 65 68 72 76 80)
 
 # direct ACPI call
 function acpi_call {
@@ -57,9 +57,9 @@ function level_temp_set {
 
 ## EXECUTION
 
-# check "temps" length
-if [ ${#temps[@]} != 8 ]; then
-    echo 'Error: length of the "temps" array must be exactly 8.'
+# check "fan_temps" length
+if [ ${#fan_temps[@]} != 8 ]; then
+    echo 'Error: length of the "fan_temps" array must be exactly 8.'
     exit 2
 fi
 
@@ -71,11 +71,11 @@ else
 fi
 
 # setup each individual fan speed level
-level_temp_set 7 ${temps[7]}
-level_temp_set 6 ${temps[6]}
-level_temp_set 5 ${temps[5]}
-level_temp_set 4 ${temps[4]}
-level_temp_set 3 ${temps[3]}
-level_temp_set 2 ${temps[2]}
-level_temp_set 1 ${temps[1]}
-level_temp_set 0 ${temps[0]}
+level_temp_set 7 ${fan_temps[7]}
+level_temp_set 6 ${fan_temps[6]}
+level_temp_set 5 ${fan_temps[5]}
+level_temp_set 4 ${fan_temps[4]}
+level_temp_set 3 ${fan_temps[3]}
+level_temp_set 2 ${fan_temps[2]}
+level_temp_set 1 ${fan_temps[1]}
+level_temp_set 0 ${fan_temps[0]}
