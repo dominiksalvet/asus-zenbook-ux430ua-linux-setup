@@ -4,9 +4,6 @@
 # Copyright (C) 2017-2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
 #-------------------------------------------------------------------------------
-# Parameters:
-#     $1 - number of seconds to sleep before the fan speed configuration
-#-------------------------------------------------------------------------------
 
 ## SOFTWARE DEPENDECIES
 
@@ -16,7 +13,6 @@ type [ > /dev/null; ((sw_missing |= $?))
 type echo > /dev/null; ((sw_missing |= $?))
 type cat > /dev/null; ((sw_missing |= $?))
 type printf > /dev/null; ((sw_missing |= $?))
-type sleep > /dev/null; ((sw_missing |= $?))
 
 # check if some software is missing
 if [ "$sw_missing" -ne 0 ]; then
@@ -61,13 +57,6 @@ function level_temp_set {
 if [ ${#fan_temps[@]} != 8 ]; then
     echo 'Error: length of the "fan_temps" array must be exactly 8.'
     exit 2
-fi
-
-# perform sleep before executing
-if [ -z "$1" ]; then
-    sleep 20
-else
-    sleep "$1"
 fi
 
 # setup each individual fan speed level

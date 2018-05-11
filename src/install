@@ -112,12 +112,6 @@ if [ "$setup_jack" = y ]; then
 fi
 
 if [ "$setup_fan" = y ]; then
-    # fan-config additional software dependency check
-    type sleep > /dev/null;
-    if [ $? -ne 0 ]; then
-        echo 'Required software is missing, installation canceled.'
-        exit 1
-    fi
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
         echo 'The "fan-config" file does not exist, installation canceled.'
