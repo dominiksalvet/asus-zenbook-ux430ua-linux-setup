@@ -70,6 +70,7 @@ Enter custom temperatures or hit enter to use the default ones.
 > 45 50 55 60 65 70 75 80
 ...
 ```
+
 ## Thanks
 
 The very core of this program stands on a comment from [afilipovich](https://github.com/afilipovich) user in [this issue](https://github.com/daringer/asus-fan/issues/44).
