@@ -42,9 +42,7 @@ In case of uninstalling from a custom installation directory, do not forget to u
 
 The fan speed policy is defined by 8 numbers that represent temperature boundaries in Celsius between individual fan speed levels. Those numbers should be increasing as they increase the fan speed level.
 
-The default values are: `55 60 62 65 68 72 76 80`
-
-Table representation of the default values:
+The default values are `55 60 62 65 68 72 76 80`, their table representation follows:
 
 | Speed level   | Temperatures (C°) |
 | ------------- | ----------------- |
