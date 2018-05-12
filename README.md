@@ -44,18 +44,19 @@ The fan speed policy is defined by 8 numbers that represent temperature boundari
 
 The default values are: `55 60 62 65 68 72 76 80`
 
-Table equivalent:
+Table representation of the default values:
 
-| Speed level   | Temperature (C°) |
-| ------------- | ---------------- |
-| 0 (off)       | 55>              |
-| 1             | 60               |
-| 2             | 62               |
-| 3             | 65               |
-| 4             | 68               |
-| 5             | 72               |
-| 6             | 76               |
-| 7 (max)       | 80<              |
+| Speed level   | Temperatures (C°) |
+| ------------- | ----------------- |
+| 0 (off)       | 54 and less       |
+| 1             | 55 to 59          |
+| 2             | 60 to 61          |
+| 3             | 62 to 64          |
+| 4             | 65 to 67          |
+| 5             | 68 to 71          |
+| 6             | 72 to 75          |
+| 7             | 76 to 79          |
+| 8 (max)       | 80 and more       |
 
 However, during the installation process you will be asked if you like to use your custom values. If so, you can directly type them into the program, which will throw your input againts a format check. Input with valid format consists of 8 not negative numbers separated by one space. Nevertheless, be aware that meaning of the entered numbers is not further checked though!
 
