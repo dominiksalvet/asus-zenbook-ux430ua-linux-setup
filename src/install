@@ -12,22 +12,22 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
-type [ > /dev/null; ((sw_missing |= $?))
-type echo > /dev/null; ((sw_missing |= $?))
-type cd > /dev/null; ((sw_missing |= $?))
-type dirname > /dev/null; ((sw_missing |= $?))
-type printf > /dev/null; ((sw_missing |= $?))
-type read > /dev/null; ((sw_missing |= $?))
-type grep > /dev/null; ((sw_missing |= $?))
-type cat > /dev/null; ((sw_missing |= $?))
-type apt > /dev/null; ((sw_missing |= $?))
-type chmod > /dev/null; ((sw_missing |= $?))
-type sed > /dev/null; ((sw_missing |= $?))
-type ln > /dev/null; ((sw_missing |= $?))
+type [ > /dev/null; sw_missing=$((sw_missing | $?))
+type echo > /dev/null; sw_missing=$((sw_missing | $?))
+type cd > /dev/null; sw_missing=$((sw_missing | $?))
+type dirname > /dev/null; sw_missing=$((sw_missing | $?))
+type printf > /dev/null; sw_missing=$((sw_missing | $?))
+type read > /dev/null; sw_missing=$((sw_missing | $?))
+type grep > /dev/null; sw_missing=$((sw_missing | $?))
+type cat > /dev/null; sw_missing=$((sw_missing | $?))
+type apt > /dev/null; sw_missing=$((sw_missing | $?))
+type chmod > /dev/null; sw_missing=$((sw_missing | $?))
+type sed > /dev/null; sw_missing=$((sw_missing | $?))
+type ln > /dev/null; sw_missing=$((sw_missing | $?))
 
 # check if some software is missing
 if [ $sw_missing -ne 0 ]; then
-    echo 'Required software is missing, installation canceled.'
+    echo "$0: Required software is missing, installation canceled." >&2
     exit 1
 fi
 
@@ -35,12 +35,12 @@ fi
 
 # check if running as root
 if [ $EUID -ne 0 ]; then
-    echo 'Please run as root, installation canceled.'
+    echo "$0: Please run as root, installation canceled." >&2
     exit 2
 fi
 
 # change directory to the script directory
-cd -- "$(dirname -- "$0")"
+cd -- "$(dirname -- "$0")" || exit 3
 
 # notice
 echo 'Notice:'
@@ -60,14 +60,14 @@ if [ $jack_config_exist = y ]; then
     echo 'n (already set up)'
     setup_jack=n
 else
-    read setup_jack
+    read -r setup_jack
 fi
 printf '2) Set up the fan speed policy to be less aggressive? [y/n] '
 if [ $fan_config_exist = y ]; then
     echo 'n (already set up)'
     setup_fan=n
 else
-    read setup_fan
+    read -r setup_fan
 fi
 echo
 
@@ -84,7 +84,7 @@ if [ "$setup_fan" = y ]; then echo 'The 2) option will be applied.'; fi
 
 # user confirmation
 echo
-read -p 'Are you really sure to continue? [y/n] ' user_agreed
+read -r -p 'Are you really sure to continue? [y/n] ' user_agreed
 if [ "$user_agreed" != y ]; then
     echo 'Installation canceled.'
     exit
@@ -103,8 +103,8 @@ find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
 if [ "$setup_jack" = y ]; then
     # check if jack-config file exists
     if [ ! -e jack-config ]; then
-        echo 'The "jack-config" file does not exist, installation canceled.'
-        exit 3
+        echo "$0: The \"jack-config\" file does not exist, installation canceled." >&2
+        exit 4
     else
         # load jack-config file content into variable
         jack_config_string=$(cat jack-config)
@@ -114,8 +114,8 @@ fi
 if [ "$setup_fan" = y ]; then
     # check if fan-config file exists
     if [ ! -e fan-config ]; then
-        echo 'The "fan-config" file does not exist, installation canceled.'
-        exit 4
+        echo "$0: The \"fan-config\" file does not exist, installation canceled." >&2
+        exit 5
     else
         # load fan-config file content into variable
         fan_config_string=$(cat fan-config)
@@ -127,13 +127,12 @@ if [ "$setup_fan" = y ]; then
     # parse user input
     custom_fan_temps_valid=n
     while [ $custom_fan_temps_valid = n ]; do
-        read -p "> " custom_fan_temps
+        read -r -p "> " custom_fan_temps
         if [ -z "$custom_fan_temps" ]; then
             custom_fan_temps_valid=y
         else
             # check if valid temperatures format
-            echo "$custom_fan_temps" | grep -q -e '^[0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+$'
-            if [ $? -eq 0 ]; then
+            if echo "$custom_fan_temps" | grep -q -e '^[0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+$'; then
                 custom_fan_temps_valid=y
                 # modify the script loaded in the variable to reflect new temperature levels
                 fan_config_string=$(echo "$fan_config_string" | sed -e '/^fan_temps/!b;s/(.*)/('"$custom_fan_temps"')/')

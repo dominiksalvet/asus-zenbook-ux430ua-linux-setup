@@ -12,15 +12,15 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
-type [ > /dev/null; ((sw_missing |= $?))
-type echo > /dev/null; ((sw_missing |= $?))
-type read > /dev/null; ((sw_missing |= $?))
-type rm > /dev/null; ((sw_missing |= $?))
-type sed > /dev/null; ((sw_missing |= $?))
+type [ > /dev/null; sw_missing=$((sw_missing | $?))
+type echo > /dev/null; sw_missing=$((sw_missing | $?))
+type read > /dev/null; sw_missing=$((sw_missing | $?))
+type rm > /dev/null; sw_missing=$((sw_missing | $?))
+type sed > /dev/null; sw_missing=$((sw_missing | $?))
 
 # check if some software is missing
 if [ $sw_missing -ne 0 ]; then
-    echo 'Required software is missing, uninstallation canceled.'
+    echo "$0: Required software is missing, uninstallation canceled." >&2
     exit 1
 fi
 
@@ -28,7 +28,7 @@ fi
 
 # check if running as root
 if [ $EUID -ne 0 ]; then
-    echo 'Please run as root, uninstallation canceled.'
+    echo "$0: Please run as root, uninstallation canceled." >&2
     exit 2
 fi
 
@@ -38,7 +38,7 @@ fan_config_exist=n; if [ -e "$1/fan-config" ]; then fan_config_exist=y; fi
 
 # check if the program is installed in given installation directory
 if [ $jack_config_exist = n ] && [ $fan_config_exist = n ]; then
-    echo "The program is not installed in given \"$1\" directory, uninstallation canceled."
+    echo "$0: The program is not installed in given \"$1\" directory, uninstallation canceled." >&2
     exit 3
 fi
 
@@ -49,7 +49,7 @@ if [ $fan_config_exist = y ]; then echo 'The fan speed policy will be set to the
 
 # user confirmation
 echo
-read -p 'Are you really sure to continue? [y/n] ' user_agreed
+read -r -p 'Are you really sure to continue? [y/n] ' user_agreed
 if [ "$user_agreed" != y ]; then
     echo 'Uninstallation canceled.'
     exit

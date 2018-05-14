@@ -9,14 +9,14 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
-type [ > /dev/null; ((sw_missing |= $?))
-type echo > /dev/null; ((sw_missing |= $?))
-type cat > /dev/null; ((sw_missing |= $?))
-type printf > /dev/null; ((sw_missing |= $?))
+type [ > /dev/null; sw_missing=$((sw_missing | $?))
+type echo > /dev/null; sw_missing=$((sw_missing | $?))
+type cat > /dev/null; sw_missing=$((sw_missing | $?))
+type printf > /dev/null; sw_missing=$((sw_missing | $?))
 
 # check if some software is missing
 if [ "$sw_missing" -ne 0 ]; then
-    echo 'Required software is missing, configuration canceled.'
+    echo "$0: Required software is missing, configuration canceled." >&2
     exit 1
 fi
 
@@ -38,33 +38,33 @@ function acpi_call {
 
 # convert number from decimal to hexadecimal form
 function dec_to_hex {
-    printf '%X' $1
+    printf '%X' "$1"
 }
 
 # get address of each fan speed level
 function level_to_addr {
-    echo $(($FAN_SPEED_BASE_ADDR + $1))
+    echo $((FAN_SPEED_BASE_ADDR + $1))
 }
 
 # assigning fan speed level and temperature
 function level_temp_set {
-    acpi_call '\_SB.PCI0.LPCB.EC0.WRAM '"0x$(dec_to_hex $(level_to_addr $1)) 0x$(dec_to_hex $2)"
+    acpi_call '\_SB.PCI0.LPCB.EC0.WRAM '"0x$(dec_to_hex "$(level_to_addr "$1")") 0x$(dec_to_hex "$2")"
 }
 
 ## EXECUTION
 
 # check "fan_temps" length
 if [ ${#fan_temps[@]} != 8 ]; then
-    echo 'Error: length of the "fan_temps" array must be exactly 8.'
+    echo "$0: Length of the \"fan_temps\" array must be exactly 8." >&2
     exit 2
 fi
 
 # setup each individual fan speed level
-level_temp_set 7 ${fan_temps[7]}
-level_temp_set 6 ${fan_temps[6]}
-level_temp_set 5 ${fan_temps[5]}
-level_temp_set 4 ${fan_temps[4]}
-level_temp_set 3 ${fan_temps[3]}
-level_temp_set 2 ${fan_temps[2]}
-level_temp_set 1 ${fan_temps[1]}
-level_temp_set 0 ${fan_temps[0]}
+level_temp_set 7 "${fan_temps[7]}"
+level_temp_set 6 "${fan_temps[6]}"
+level_temp_set 5 "${fan_temps[5]}"
+level_temp_set 4 "${fan_temps[4]}"
+level_temp_set 3 "${fan_temps[3]}"
+level_temp_set 2 "${fan_temps[2]}"
+level_temp_set 1 "${fan_temps[1]}"
+level_temp_set 0 "${fan_temps[0]}"
