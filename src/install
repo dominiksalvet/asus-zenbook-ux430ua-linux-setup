@@ -12,18 +12,18 @@
 
 sw_missing=0
 # software is missing if at least one piece of software is missing
-type [ > /dev/null; sw_missing=$((sw_missing | $?))
-type echo > /dev/null; sw_missing=$((sw_missing | $?))
-type cd > /dev/null; sw_missing=$((sw_missing | $?))
-type dirname > /dev/null; sw_missing=$((sw_missing | $?))
-type printf > /dev/null; sw_missing=$((sw_missing | $?))
-type read > /dev/null; sw_missing=$((sw_missing | $?))
-type grep > /dev/null; sw_missing=$((sw_missing | $?))
-type cat > /dev/null; sw_missing=$((sw_missing | $?))
-type apt > /dev/null; sw_missing=$((sw_missing | $?))
-type chmod > /dev/null; sw_missing=$((sw_missing | $?))
-type sed > /dev/null; sw_missing=$((sw_missing | $?))
-type ln > /dev/null; sw_missing=$((sw_missing | $?))
+command -V [ > /dev/null; sw_missing=$((sw_missing | $?))
+command -V echo > /dev/null; sw_missing=$((sw_missing | $?))
+command -V cd > /dev/null; sw_missing=$((sw_missing | $?))
+command -V dirname > /dev/null; sw_missing=$((sw_missing | $?))
+command -V printf > /dev/null; sw_missing=$((sw_missing | $?))
+command -V read > /dev/null; sw_missing=$((sw_missing | $?))
+command -V grep > /dev/null; sw_missing=$((sw_missing | $?))
+command -V cat > /dev/null; sw_missing=$((sw_missing | $?))
+command -V apt > /dev/null; sw_missing=$((sw_missing | $?))
+command -V chmod > /dev/null; sw_missing=$((sw_missing | $?))
+command -V sed > /dev/null; sw_missing=$((sw_missing | $?))
+command -V ln > /dev/null; sw_missing=$((sw_missing | $?))
 
 # check if some software is missing
 if [ $sw_missing -ne 0 ]; then
