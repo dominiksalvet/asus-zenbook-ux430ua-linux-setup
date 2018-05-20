@@ -19,7 +19,15 @@ INSTALL_DIR := /usr/local/bin
 
 ## OTHERS
 
-HELP_GENERATOR := /^[^\#]\+:\(\#\|[^=].*\#\).*$$/!d;s/^\s*/  /;s/\s*:[^\#]*//;s/\#\+\s*/\#/;s/\#/<U+0023>/2g;
+# sed script of automatic help generation from target comments
+define HELP_GENERATOR
+/^[a-zA-Z]\+:[a-zA-Z ]*#.*$$/!d
+s/^\s*/  /
+s/\s*:[^#]*//
+s/#\+\s*/#/
+s/#/<U+0023>/2g
+endef
+export HELP_GENERATOR
 
 ## RULES
 
@@ -31,7 +39,7 @@ help: # show this help
 	@$(ECHO) 'Usage: make [TARGET]...'
 	@$(ECHO)
 	@$(ECHO) 'TARGET:'
-	@$(SED) -e "$(HELP_GENERATOR)" makefile | $(COLUMN) -t -s '#'
+	@$(SED) -e "$$HELP_GENERATOR" makefile | $(COLUMN) -t -s '#'
 
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
