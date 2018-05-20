@@ -17,6 +17,10 @@ COLUMN := column
 SRC_DIR := src
 INSTALL_DIR := /usr/local/bin
 
+## OTHERS
+
+HELP_GENERATOR := /^[^\#]\+:\(\#\|[^=].*\#\).*$$/!d;s/^\s*/  /;s/\s*:[^\#]*//;s/\#\+\s*/\#/;s/\#/<U+0023>/2g;
+
 ## RULES
 
 .PHONY: all help install uninstall
@@ -24,10 +28,10 @@ INSTALL_DIR := /usr/local/bin
 all: help
 
 help: # show this help
-	@$(ECHO) 'Usage: make [targets]'
+	@$(ECHO) 'Usage: make [TARGET]...'
 	@$(ECHO)
-	@$(ECHO) 'targets:'
-	@$(SED) -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;s/#/<NUMBER SIGN>/2g;' makefile | $(COLUMN) -t -s '#'
+	@$(ECHO) 'TARGET:'
+	@$(SED) -e "$(HELP_GENERATOR)" makefile | $(COLUMN) -t -s '#'
 
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
