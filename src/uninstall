@@ -10,7 +10,7 @@
 
 ## SOFTWARE DEPENDECIES
 
-sw_required='[ echo read rm sed'
+sw_required='echo [ read rm sed'
 
 # check if some software is missing
 for i in $sw_required; do

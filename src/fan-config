@@ -7,7 +7,7 @@
 
 ## SOFTWARE DEPENDECIES
 
-sw_required='[ echo cat printf'
+sw_required='echo [ cat printf'
 
 # check if some software is missing
 for i in $sw_required; do

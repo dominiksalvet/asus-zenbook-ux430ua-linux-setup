@@ -10,7 +10,7 @@
 
 ## SOFTWARE DEPENDECIES
 
-sw_required='[ echo cd dirname printf read grep cat apt chmod sed ln'
+sw_required='echo [ cd dirname printf read grep cat apt chmod sed ln'
 
 # check if some software is missing
 for i in $sw_required; do
