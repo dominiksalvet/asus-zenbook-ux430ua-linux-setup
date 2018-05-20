@@ -10,19 +10,16 @@
 
 ## SOFTWARE DEPENDECIES
 
-sw_missing=0
-# software is missing if at least one piece of software is missing
-command -V [ > /dev/null; sw_missing=$((sw_missing | $?))
-command -V echo > /dev/null; sw_missing=$((sw_missing | $?))
-command -V read > /dev/null; sw_missing=$((sw_missing | $?))
-command -V rm > /dev/null; sw_missing=$((sw_missing | $?))
-command -V sed > /dev/null; sw_missing=$((sw_missing | $?))
+sw_required='[ echo read rm sed'
 
 # check if some software is missing
-if [ $sw_missing -ne 0 ]; then
-    echo "$0: Required software is missing, uninstallation canceled." >&2
-    exit 1
-fi
+for i in $sw_required; do
+    # software is missing if at least one piece of software is missing
+    if ! command -v "$i" > /dev/null; then
+        echo "$0: Required software \"$i\" is missing, installation canceled." >&2
+        exit 1
+    fi
+done
 
 ## USER SETUP
 
