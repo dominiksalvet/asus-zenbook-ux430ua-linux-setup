@@ -24,7 +24,7 @@ INSTALL_DIR := /usr/local/bin
 all: help
 
 help: # show this help
-	@$(ECHO) 'Usage: make [target]'
+	@$(ECHO) 'Usage: make [targets]'
 	@$(ECHO)
 	@$(ECHO) 'targets:'
 	@$(SED) -e '/^[^#]\+:.*#.*$$/!d;s/\s*:[^#]*//;s/#\+\s*/#/;s/#/<NUMBER SIGN>/2g;' makefile | $(COLUMN) -t -s '#'
