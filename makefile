@@ -40,6 +40,9 @@ help: # show this help
 	@$(ECHO)
 	@$(ECHO) 'TARGET:'
 	@$(SED) -e "$$HELP_GENERATOR" makefile | $(COLUMN) -t -s '#'
+	@$(ECHO)
+	@$(ECHO) 'DESCRIPTION:'
+	@$(ECHO) '  This program manages additional Linux configuration for ASUS ZenBook UX430UA.'
 
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
