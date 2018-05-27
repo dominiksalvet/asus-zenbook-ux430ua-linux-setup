@@ -53,5 +53,5 @@ uninstall: # uninstall this program
 
 version: # print the program's version
 	@$(ECHO) 'asus-zenbook-ux430ua-linux-setup v1.0.1'
-	@$(ECHO) 'Copyright (C) 2018 Dominik Salvet'
+	@$(ECHO) 'Copyright (C) 2017-2018 Dominik Salvet'
 	@$(ECHO) 'SPDX-License-Identifier: MIT'
