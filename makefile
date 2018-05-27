@@ -31,8 +31,9 @@ export HELP_GENERATOR
 
 ## RULES
 
-.PHONY: all help install uninstall
+.PHONY: all help install uninstall version
 
+# the default target
 all: help
 
 help: # show this help
@@ -49,3 +50,6 @@ install: # launch an installation wizard of this program
 
 uninstall: # uninstall this program
 	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
+
+version: # print the program's version
+	@$(ECHO) 'asus-zenbook-ux430ua-linux-setup v1.0.1'
