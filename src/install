@@ -10,10 +10,10 @@
 
 ## SOFTWARE DEPENDECIES
 
-sw_required='echo [ cd dirname printf read grep cat apt chmod sed ln'
+SW_REQUIRED='echo [ cd dirname printf read grep cat apt chmod sed ln'
 
 # check if some software is missing
-for i in $sw_required; do
+for i in $SW_REQUIRED; do
     # software is missing if at least one piece of software is missing
     if ! command -v "$i" > /dev/null; then
         echo "$0: Required software \"$i\" is missing, installation canceled." >&2
@@ -86,7 +86,7 @@ echo
 echo 'Installing ...'
 
 # regular expression of line containing a successful exit of a shell script
-find_exit_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
+FIND_EXIT_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
 
 ## FILE DEPENDENCIES
 
@@ -125,7 +125,7 @@ if [ "$setup_fan" = y ]; then
             if echo "$custom_fan_temps" | grep -q -e '^[0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+$'; then
                 custom_fan_temps_valid=y
                 # modify the script loaded in the variable to reflect new temperature levels
-                fan_config_string=$(echo "$fan_config_string" | sed -e '/^fan_temps/!b;s/(.*)/('"$custom_fan_temps"')/')
+                fan_config_string=$(echo "$fan_config_string" | sed -e '/^FAN_TEMPS/!b;s/(.*)/('"$custom_fan_temps"')/')
             fi
         fi
     done
@@ -135,7 +135,7 @@ fi
 if [ ! -e /etc/rc.local ]; then
     echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
 # append a successful exit if it does not contain one
-elif ! grep -q -e "$find_exit_0" /etc/rc.local; then
+elif ! grep -q -e "$FIND_EXIT_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 
@@ -147,7 +147,7 @@ if [ "$setup_jack" = y ]; then
 
     echo "$jack_config_string" > "$1/jack-config"
     chmod a+x "$1/jack-config"
-    sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/jack-config\n&|' /etc/rc.local
+    sed -i -e '0,/'"$FIND_EXIT_0"'/s||'"$1"'/jack-config\n&|' /etc/rc.local
     ln -s -- "$1/jack-config" /lib/systemd/system-sleep/jack-config
 fi
 
@@ -158,7 +158,7 @@ if [ "$setup_fan" = y ]; then
 
     echo "$fan_config_string" > "$1/fan-config"
     chmod a+x "$1/fan-config"
-    sed -i -e '0,/'"$find_exit_0"'/s||'"$1"'/fan-config\n&|' /etc/rc.local
+    sed -i -e '0,/'"$FIND_EXIT_0"'/s||'"$1"'/fan-config\n&|' /etc/rc.local
     ln -s -- "$1/fan-config" /lib/systemd/system-sleep/fan-config
 fi
 

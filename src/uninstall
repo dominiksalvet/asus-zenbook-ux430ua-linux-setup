@@ -10,10 +10,10 @@
 
 ## SOFTWARE DEPENDECIES
 
-sw_required='echo [ read rm sed'
+SW_REQUIRED='echo [ read rm sed'
 
 # check if some software is missing
-for i in $sw_required; do
+for i in $SW_REQUIRED; do
     # software is missing if at least one piece of software is missing
     if ! command -v "$i" > /dev/null; then
         echo "$0: Required software \"$i\" is missing, uninstallation canceled." >&2
