@@ -51,7 +51,7 @@ install: # launch an installation wizard of this program
 uninstall: # uninstall this program
 	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
 
-version: # print the program's version
+version: # output version information
 	@$(ECHO) 'asus-zenbook-ux430ua-linux-setup v1.0.1'
 	@$(ECHO) 'Copyright (C) 2017-2018 Dominik Salvet'
 	@$(ECHO) 'SPDX-License-Identifier: MIT'
