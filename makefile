@@ -36,7 +36,7 @@ export HELP_GENERATOR
 # the default target
 all: help
 
-help: # show this help
+help: # display this help
 	@$(ECHO) 'Usage: make [TARGET]...'
 	@$(ECHO)
 	@$(ECHO) 'TARGET:'
@@ -51,7 +51,7 @@ install: # launch an installation wizard of this program
 uninstall: # uninstall this program
 	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
 
-version: # output version information
+version: # display version information
 	@$(ECHO) 'asus-zenbook-ux430ua-linux-setup v1.0.1'
 	@$(ECHO) 'Copyright (C) 2017-2018 Dominik Salvet'
 	@$(ECHO) 'SPDX-License-Identifier: MIT'
