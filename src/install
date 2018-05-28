@@ -26,11 +26,11 @@ done
 # check if running as root
 if [ $EUID -ne 0 ]; then
     echo "$0: Please run as root, installation canceled." >&2
-    exit 2
+    exit 1
 fi
 
 # change directory to the script directory
-cd -- "$(dirname -- "$0")" || exit 3
+cd -- "$(dirname -- "$0")" || exit 1
 
 # notice
 echo 'Notice:'
@@ -40,20 +40,20 @@ echo 'Option 2) will also install "acpi-call-dkms" package.'
 echo
 
 # check if any previously installed files exist
-jack_config_exist=n; if [ -e "$1/jack-config" ]; then jack_config_exist=y; fi
-fan_config_exist=n; if [ -e "$1/fan-config" ]; then fan_config_exist=y; fi
+jack_config_exist=false; if [ -f "$1/jack-config" ]; then jack_config_exist=true; fi
+fan_config_exist=false; if [ -f "$1/fan-config" ]; then fan_config_exist=true; fi
 
 # installation setup
 echo 'Installation setup:'
 printf '1) Set up 3.5 mm jack output volume to be louder? [y/n] '
-if [ $jack_config_exist = y ]; then
+if [ "$jack_config_exist" = true ]; then
     echo 'n (already set up)'
     setup_jack=n
 else
     read -r setup_jack
 fi
 printf '2) Set up the fan speed policy to be less aggressive? [y/n] '
-if [ $fan_config_exist = y ]; then
+if [ "$fan_config_exist" = true ]; then
     echo 'n (already set up)'
     setup_fan=n
 else
@@ -64,7 +64,7 @@ echo
 # check if at least one option selected
 if [ "$setup_jack" != y ] && [ "$setup_fan" != y ]; then
     echo 'No option selected, installation canceled.'
-    exit
+    exit 0
 fi
 
 # summary
@@ -77,7 +77,7 @@ echo
 read -r -p 'Are you really sure to continue? [y/n] ' user_agreed
 if [ "$user_agreed" != y ]; then
     echo 'Installation canceled.'
-    exit
+    exit 0
 fi
 
 echo
@@ -92,9 +92,9 @@ FIND_EXIT_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
 
 if [ "$setup_jack" = y ]; then
     # check if jack-config file exists
-    if [ ! -e jack-config ]; then
+    if [ ! -f jack-config ]; then
         echo "$0: The \"jack-config\" file does not exist, installation canceled." >&2
-        exit 4
+        exit 1
     else
         # load jack-config file content into variable
         jack_config_string=$(cat jack-config)
@@ -103,9 +103,9 @@ fi
 
 if [ "$setup_fan" = y ]; then
     # check if fan-config file exists
-    if [ ! -e fan-config ]; then
+    if [ ! -f fan-config ]; then
         echo "$0: The \"fan-config\" file does not exist, installation canceled." >&2
-        exit 5
+        exit 1
     else
         # load fan-config file content into variable
         fan_config_string=$(cat fan-config)
@@ -131,8 +131,8 @@ if [ "$setup_fan" = y ]; then
     done
 fi
 
-# create /etc/rc.local file if it does not exist
-if [ ! -e /etc/rc.local ]; then
+# create "/etc/rc.local" file if it does not exist
+if [ ! -f /etc/rc.local ]; then
     echo -e '#!/bin/sh -e\n\nexit 0' > /etc/rc.local
 # append a successful exit if it does not contain one
 elif ! grep -q -e "$FIND_EXIT_0" /etc/rc.local; then

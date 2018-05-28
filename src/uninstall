@@ -26,30 +26,30 @@ done
 # check if running as root
 if [ $EUID -ne 0 ]; then
     echo "$0: Please run as root, uninstallation canceled." >&2
-    exit 2
+    exit 1
 fi
 
 # check installed files
-jack_config_exist=n; if [ -e "$1/jack-config" ]; then jack_config_exist=y; fi
-fan_config_exist=n; if [ -e "$1/fan-config" ]; then fan_config_exist=y; fi
+jack_config_exist=false; if [ -f "$1/jack-config" ]; then jack_config_exist=true; fi
+fan_config_exist=false; if [ -f "$1/fan-config" ]; then fan_config_exist=true; fi
 
 # check if the program is installed in given installation directory
-if [ $jack_config_exist = n ] && [ $fan_config_exist = n ]; then
+if [ "$jack_config_exist" = false ] && [ "$fan_config_exist" = false ]; then
     echo "$0: The program is not installed in given \"$1\" directory, uninstallation canceled." >&2
-    exit 3
+    exit 1
 fi
 
 # summary
 echo 'Summary:'
-if [ $jack_config_exist = y ]; then echo 'The 3.5 mm jack output volume will be set to the system default.'; fi
-if [ $fan_config_exist = y ]; then echo 'The fan speed policy will be set to the system default.'; fi
+if [ "$jack_config_exist" = true ]; then echo 'The 3.5 mm jack output volume will be set to the system default.'; fi
+if [ "$fan_config_exist" = true ]; then echo 'The fan speed policy will be set to the system default.'; fi
 
 # user confirmation
 echo
 read -r -p 'Are you really sure to continue? [y/n] ' user_agreed
 if [ "$user_agreed" != y ]; then
     echo 'Uninstallation canceled.'
-    exit
+    exit 0
 fi
 
 ## UNINSTALLATION
@@ -59,7 +59,7 @@ echo '==========================================================================
 echo
 echo 'Uninstalling ...'
 
-if [ $fan_config_exist = y ]; then
+if [ "$fan_config_exist" = true ]; then
     # revert less aggressive fan speed policy setup
     rm -f /lib/systemd/system-sleep/fan-config
     sed -i -e '\!^[^#]*'"$1"'/fan-config\( .*\|\s*\)$!d' /etc/rc.local
@@ -67,7 +67,7 @@ if [ $fan_config_exist = y ]; then
     # acpi_call is not removed from /etc/modules (in case some program uses it)
 fi
 
-if [ $jack_config_exist = y ]; then
+if [ "$jack_config_exist" = true ]; then
     # revert 3.5 mm jack output volume setup
     rm -f /lib/systemd/system-sleep/jack-config
     sed -i -e '\!^[^#]*'"$1"'/jack-config\( .*\|\s*\)$!d' /etc/rc.local
