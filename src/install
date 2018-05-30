@@ -30,7 +30,10 @@ if [ $EUID -ne 0 ]; then
 fi
 
 # change directory to the script directory
-cd -- "$(dirname -- "$0")" || exit 1
+cd -- "$(dirname -- "$0")" || {
+    echo "$0: The directory should have been existing, installation canceled." >&2
+    exit 1
+}
 
 # notice
 echo 'Notice:'
