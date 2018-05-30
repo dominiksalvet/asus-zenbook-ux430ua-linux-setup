@@ -10,7 +10,7 @@ Both described problems can be solved with this program. The program includes a 
 
 ## Installation
 
-To start the installation, run the program by typing the following command in a terminal emulator opened in *asus-zenbook-ux430ua-linux-setup* directory:
+To start the installation, run the program by typing the following command in a terminal emulator opened in the downloaded *asus-zenbook-ux430ua-linux-setup* directory:
 
 ```bash
 sudo make install
@@ -20,7 +20,7 @@ The program will asks for a sudo password, because it needs to write configurati
 
 ---
 
-If it is required to uninstall the program, open a terminal emulator in *asus-zenbook-ux430ua-linux-setup* directory and type:
+If it is required to uninstall the program, open a terminal emulator in the downloaded *asus-zenbook-ux430ua-linux-setup* directory and type:
 
 ```bash
 sudo make uninstall
