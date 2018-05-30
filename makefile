@@ -54,4 +54,4 @@ about: # display information about this program
 	@$(ECHO)
 	@$(ECHO) 'Copyright (C) 2017-2018 Dominik Salvet'
 	@$(ECHO) 'SPDX-License-Identifier: MIT'
-	@$(ECHO) 'Website: <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>'
+	@$(ECHO) '<https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>'
