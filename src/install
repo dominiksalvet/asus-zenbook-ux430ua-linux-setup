@@ -142,6 +142,9 @@ elif ! grep -q -e "$FIND_EXIT_0" /etc/rc.local; then
     echo 'exit 0' >> /etc/rc.local
 fi
 
+# set execution permission of the "/etc/rc.local" file
+chmod a+x /etc/rc.local
+
 ## INSTALLATION
 
 # apply 3.5 mm jack output volume setup
