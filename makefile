@@ -55,3 +55,5 @@ version: # display version information
 	@$(ECHO) 'asus-zenbook-ux430ua-linux-setup 1.0.2'
 	@$(ECHO) 'Copyright (C) 2017-2018 Dominik Salvet'
 	@$(ECHO) 'SPDX-License-Identifier: MIT'
+	@$(ECHO)
+	@$(ECHO) 'Website: <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>'
