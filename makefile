@@ -31,7 +31,7 @@ export HELP_GENERATOR
 
 ## RULES
 
-.PHONY: all help install uninstall version
+.PHONY: all help install uninstall about
 
 # the default target
 all: help
@@ -41,9 +41,6 @@ help: # display this help
 	@$(ECHO)
 	@$(ECHO) 'TARGET:'
 	@$(SED) -e "$$HELP_GENERATOR" makefile | $(COLUMN) -t -s '#'
-	@$(ECHO)
-	@$(ECHO) 'DESCRIPTION:'
-	@$(ECHO) '  This program manages additional Linux configuration for ASUS ZenBook UX430UA.'
 
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
@@ -51,9 +48,10 @@ install: # launch an installation wizard of this program
 uninstall: # uninstall this program
 	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
 
-version: # display version information
+about: # display information about this program
 	@$(ECHO) 'asus-zenbook-ux430ua-linux-setup 1.0.2'
+	@$(ECHO) 'This program manages additional Linux configuration for ASUS ZenBook UX430UA.'
+	@$(ECHO)
 	@$(ECHO) 'Copyright (C) 2017-2018 Dominik Salvet'
 	@$(ECHO) 'SPDX-License-Identifier: MIT'
-	@$(ECHO)
 	@$(ECHO) 'Website: <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>'
