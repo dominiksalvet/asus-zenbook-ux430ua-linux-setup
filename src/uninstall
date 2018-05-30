@@ -59,18 +59,23 @@ echo '==========================================================================
 echo
 echo 'Uninstalling ...'
 
+# regular expression of line containing sleep 1
+FIND_SLEEP_1='^\s*sleep\s\+0*1\(\s*\|\s\+#.*\)$'
+
+# remove the first time delay added when applying the setups
+sed -i -e '0,/'"$FIND_SLEEP_1"'/{//d;}' /etc/rc.local
+
+# revert less aggressive fan speed policy setup
 if [ "$fan_config_exist" = true ]; then
-    # revert less aggressive fan speed policy setup
     rm -f /lib/systemd/system-sleep/fan-config
-    sed -i -e '\!^[^#]*'"$1"'/fan-config\( .*\|\s*\)$!d' /etc/rc.local
+    sed -i -e '\!^[^#]*'"$1"'/fan-config\(\|\s.*\)$!d' /etc/rc.local
     rm -f -- "$1/fan-config"
-    # acpi_call is not removed from /etc/modules (in case some program uses it)
 fi
 
+# revert 3.5 mm jack output volume setup
 if [ "$jack_config_exist" = true ]; then
-    # revert 3.5 mm jack output volume setup
     rm -f /lib/systemd/system-sleep/jack-config
-    sed -i -e '\!^[^#]*'"$1"'/jack-config\( .*\|\s*\)$!d' /etc/rc.local
+    sed -i -e '\!^[^#]*'"$1"'/jack-config\(\|\s.*\)$!d' /etc/rc.local
     rm -f -- "$1/jack-config"
 fi
 

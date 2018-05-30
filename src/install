@@ -89,7 +89,7 @@ echo
 echo 'Installing ...'
 
 # regular expression of line containing a successful exit of a shell script
-FIND_EXIT_0='^[^#]*exit\(\|\s\s*00*\)\s*\(\|#.*\)$'
+FIND_EXIT_0='^\s*exit\(\|\s\+0\+\)\(\s*\|\s\+#.*\)$'
 
 ## FILE DEPENDENCIES
 
@@ -146,6 +146,9 @@ fi
 chmod a+x /etc/rc.local
 
 ## INSTALLATION
+
+# add time delay before applying any of the setups
+sed -i -e '0,/'"$FIND_EXIT_0"'/s||sleep 1\n&|' /etc/rc.local
 
 # apply 3.5 mm jack output volume setup
 if [ "$setup_jack" = y ]; then
