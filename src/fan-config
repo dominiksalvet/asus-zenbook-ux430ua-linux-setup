@@ -64,7 +64,7 @@ function level_temp_set {
 
 # check "FAN_TEMPS" length
 if [ ${#FAN_TEMPS[@]} != 8 ]; then
-    echo "$0: Length of the \"FAN_TEMPS\" array must be exactly 8." >&2
+    echo "$0: Length of the \"FAN_TEMPS\" array must be exactly 8, configuration canceled." >&2
     exit 1
 fi
 
