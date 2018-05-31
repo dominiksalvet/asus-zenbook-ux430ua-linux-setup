@@ -3,13 +3,18 @@
 #-------------------------------------------------------------------------------
 # Copyright (C) 2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
+# <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>
 #-------------------------------------------------------------------------------
-# Parameters:
-#     $1 - installation directory path
+# PARAMETERS:
+#   $1 - installation directory path
 #-------------------------------------------------------------------------------
 
-## SOFTWARE DEPENDECIES
 
+#-------------------------------------------------------------------------------
+# SOFTWARE DEPENDENCIES
+#-------------------------------------------------------------------------------
+
+# list of required software
 SW_REQUIRED='echo [ read rm sed'
 
 # check if some software is missing
@@ -21,7 +26,10 @@ for i in $SW_REQUIRED; do
     fi
 done
 
-## USER SETUP
+
+#-------------------------------------------------------------------------------
+# USER SETUP
+#-------------------------------------------------------------------------------
 
 # check if running as root
 if [ $EUID -ne 0 ]; then
@@ -52,7 +60,10 @@ if [ "$user_agreed" != y ]; then
     exit 0
 fi
 
-## UNINSTALLATION
+
+#-------------------------------------------------------------------------------
+# UNINSTALLATION
+#-------------------------------------------------------------------------------
 
 echo
 echo '================================================================================'

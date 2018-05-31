@@ -3,13 +3,18 @@
 #-------------------------------------------------------------------------------
 # Copyright (C) 2017-2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
+# <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>
 #-------------------------------------------------------------------------------
-# Parameters:
-#     $1 - installation directory path
+# PARAMETERS:
+#   $1 - installation directory path
 #-------------------------------------------------------------------------------
 
-## SOFTWARE DEPENDECIES
 
+#-------------------------------------------------------------------------------
+# SOFTWARE DEPENDENCIES
+#-------------------------------------------------------------------------------
+
+# list of required software
 SW_REQUIRED='echo [ cd dirname printf read grep cat apt chmod sed ln'
 
 # check if some software is missing
@@ -21,7 +26,10 @@ for i in $SW_REQUIRED; do
     fi
 done
 
-## USER SETUP
+
+#-------------------------------------------------------------------------------
+# USER SETUP
+#-------------------------------------------------------------------------------
 
 # check if running as root
 if [ $EUID -ne 0 ]; then
@@ -91,7 +99,10 @@ echo 'Installing ...'
 # regular expression of line containing a successful exit of a shell script
 FIND_EXIT_0='^\s*exit\(\|\s\+0\+\)\(\s*\|\s\+#.*\)$'
 
-## FILE DEPENDENCIES
+
+#-------------------------------------------------------------------------------
+# FILE DEPENDENCIES
+#-------------------------------------------------------------------------------
 
 if [ "$setup_jack" = y ]; then
     # check if jack-config file exists
@@ -125,7 +136,7 @@ if [ "$setup_fan" = y ]; then
             custom_fan_temps_valid=y
         else
             # check if valid temperatures format
-            if echo "$custom_fan_temps" | grep -q -e '^[0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+ [0-9]\+$'; then
+            if echo "$custom_fan_temps" | grep -q -e '^\([0-9]\+ \)\{7\}[0-9]\+$'; then
                 custom_fan_temps_valid=y
                 # modify the script loaded in the variable to reflect new temperature levels
                 fan_config_string=$(echo "$fan_config_string" | sed -e '/^FAN_TEMPS/!b;s/(.*)/('"$custom_fan_temps"')/')
@@ -145,7 +156,10 @@ fi
 # set execution permission of the "/etc/rc.local" file
 chmod a+x /etc/rc.local
 
-## INSTALLATION
+
+#-------------------------------------------------------------------------------
+# INSTALLATION
+#-------------------------------------------------------------------------------
 
 # add time delay before applying any of the setups
 sed -i -e '0,/'"$FIND_EXIT_0"'/s||sleep 1\n&|' /etc/rc.local

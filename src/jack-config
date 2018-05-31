@@ -3,7 +3,9 @@
 #-------------------------------------------------------------------------------
 # Copyright (C) 2017-2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
+# <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>
 #-------------------------------------------------------------------------------
+
 
 # setup output audio jack volume level
 hda-verb /dev/snd/hwC0D0 0x20 SET_COEF_INDEX 0x67

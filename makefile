@@ -1,9 +1,13 @@
 #-------------------------------------------------------------------------------
 # Copyright (C) 2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
+# <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>
 #-------------------------------------------------------------------------------
 
-## ENVIRONMENT
+
+#-------------------------------------------------------------------------------
+# DEFINITIONS
+#-------------------------------------------------------------------------------
 
 # only bash is supported
 SHELL := /bin/bash
@@ -11,13 +15,9 @@ ECHO := echo
 SED := sed
 COLUMN := column
 
-## PROJECT
-
 # directory definitions
 SRC_DIR := src
 INSTALL_DIR := /usr/local/bin
-
-## OTHERS
 
 # sed script of automatic help generation from target comments
 define HELP_GENERATOR
@@ -29,7 +29,10 @@ s/#/<U+0023>/2g
 endef
 export HELP_GENERATOR
 
-## RULES
+
+#-------------------------------------------------------------------------------
+# TARGETS
+#-------------------------------------------------------------------------------
 
 .PHONY: all help install uninstall about
 
@@ -45,7 +48,7 @@ help: # display this help
 install: # launch an installation wizard of this program
 	./$(SRC_DIR)/install $(INSTALL_DIR)
 
-uninstall: # uninstall this program
+uninstall: # launch an uninstallation wizard of this program
 	./$(SRC_DIR)/uninstall $(INSTALL_DIR)
 
 about: # display information about this program

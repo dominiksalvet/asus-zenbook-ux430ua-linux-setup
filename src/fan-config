@@ -3,10 +3,15 @@
 #-------------------------------------------------------------------------------
 # Copyright (C) 2017-2018 Dominik Salvet
 # SPDX-License-Identifier: MIT
+# <https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup>
 #-------------------------------------------------------------------------------
 
-## SOFTWARE DEPENDECIES
 
+#-------------------------------------------------------------------------------
+# SOFTWARE DEPENDENCIES
+#-------------------------------------------------------------------------------
+
+# list of required software
 SW_REQUIRED='echo [ cat printf'
 
 # check if some software is missing
@@ -18,7 +23,10 @@ for i in $SW_REQUIRED; do
     fi
 done
 
-## DEFINITIONS
+
+#-------------------------------------------------------------------------------
+# DEFINITIONS
+#-------------------------------------------------------------------------------
 
 # base address for fan speed configuration
 FAN_SPEED_BASE_ADDR=1335
@@ -49,7 +57,10 @@ function level_temp_set {
     acpi_call '\_SB.PCI0.LPCB.EC0.WRAM '"0x$(dec_to_hex "$(level_to_addr "$1")") 0x$(dec_to_hex "$2")"
 }
 
-## EXECUTION
+
+#-------------------------------------------------------------------------------
+# EXECUTION
+#-------------------------------------------------------------------------------
 
 # check "FAN_TEMPS" length
 if [ ${#FAN_TEMPS[@]} != 8 ]; then
