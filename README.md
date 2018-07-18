@@ -1,4 +1,4 @@
-**Update (2018-07-19) - prepare for new, smarter and easier installation manager.**
+**Update (2018-07-19) - Prepare for new, smarter and easier installation manager.**
 
 # ASUS ZenBook UX430UA Linux Setup
 
