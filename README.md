@@ -1,4 +1,10 @@
-**Update (2018-07-19) - Prepare for new, smarter and easier installation manager.**
+**DEPRECATED - no longer maintained since 2018-07-21!**
+
+The program itself has been split into [ux430ua-jack-volume](https://gitlab.com/dominiksalvet/ux430ua-jack-volume) and [ux430ua-fan-speed](https://gitlab.com/dominiksalvet/ux430ua-fan-speed) programs. These programs have been improved over time and they include a **new, smarter and easier installation manager**.
+
+Before moving to these programs, uninstall all parts of [asus-zenbook-ux430ua-linux-setup](https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup) program using the embedded make uninstaller.
+
+---
 
 # ASUS ZenBook UX430UA Linux Setup
 
