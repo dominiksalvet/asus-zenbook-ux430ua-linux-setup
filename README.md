@@ -1,6 +1,6 @@
 **DEPRECATED - no longer maintained since 2018-07-21!**
 
-The program itself has been split into [ux430ua-jack-volume](https://gitlab.com/dominiksalvet/ux430ua-jack-volume) and [ux430ua-fan-control](https://gitlab.com/dominiksalvet/ux430ua-fan-control) programs. These programs have been improved over time and they include a **new, smarter and easier installation manager**.
+The program itself has been split into[asus-fan-control](https://gitlab.com/dominiksalvet/asus-fan-control) and [ux430ua-jack-volume](https://gitlab.com/dominiksalvet/ux430ua-jack-volume) programs. These programs have been improved over time and they include a **new, smarter and easier installation manager**, [gim](https://gitlab.com/dominiksalvet/gim).
 
 Before moving to these programs, uninstall all parts of [asus-zenbook-ux430ua-linux-setup](https://github.com/dominiksalvet/asus-zenbook-ux430ua-linux-setup) program using the embedded make uninstaller.
 
